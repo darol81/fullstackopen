@@ -9,7 +9,7 @@ const Header = (props) =>
 }
 
 
-const Content = (props) =>
+const Part = (props) =>
 {
     return  (    
             <>
@@ -40,9 +40,9 @@ const App = () =>
     return (
       <div>
         <Header course="Half Stack application development"/>
-        <Content name={part_names[0]} exercises={exercises[0]}/>
-        <Content name={part_names[1]} exercises={exercises[1]}/>
-        <Content name={part_names[2]} exercises={exercises[2]}/>
+        <Part name={part_names[0]} exercises={exercises[0]}/>
+        <Part name={part_names[1]} exercises={exercises[1]}/>
+        <Part name={part_names[2]} exercises={exercises[2]}/>
         <Total exercises={exercises[0]+exercises[1]+exercises[2]}/>
       </div>
     )
