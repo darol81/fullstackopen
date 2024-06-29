@@ -10,6 +10,9 @@ const Button = (props) =>
 
 const Statistics = (props) =>
 {
+    let all = props.data.reduce((sum, i) => sum + i, 0);
+    let average = (props.data[0] * 1 + props.data[2] * -1) / all;
+    let positive = (props.data[0] / all) * 100;
     return  (
                 <>
                     <h1>statistics</h1>
@@ -17,6 +20,9 @@ const Statistics = (props) =>
                         <li>good {props.data[0]}</li>
                         <li>neutral {props.data[1]}</li>
                         <li>bad {props.data[2]}</li>
+                        <li>all {all} </li>
+                        <li>average {average}</li>
+                        <li>positive {positive}%</li>
                     </ul>
                 </>
             )
