@@ -13,6 +13,15 @@ const Statistics = (props) =>
     let all = props.data.reduce((sum, i) => sum + i, 0);
     let average = (props.data[0] * 1 + props.data[2] * -1) / all;
     let positive = (props.data[0] / all) * 100;
+    if(!all)
+    {
+        return  (
+                    <>
+                        <h1>statistics</h1>
+                        <p>No feedback given</p>
+                    </>
+                )
+    }
     return  (
                 <>
                     <h1>statistics</h1>
