@@ -39,12 +39,27 @@ const App = () =>
         list[selected]++;
         setVotes(list)
     }
+    
+    let most_index = 0;
+    let most_max = 0;
+    for(let i = 0; i < votes.length; i++)
+    {
+        if(votes[i] > most_max)
+        {
+            most_index = i;
+            most_max = votes[i];
+        }
+    }
 
     return  (
                 <div>
+                    <h1>Anecdote of the day</h1>
                     <p>{anecdotes[selected]}<br/>has {votes[selected]} votes</p>
                     <Button handleClick={handleVote} text="vote"/>
                     <Button handleClick={handleNextAnecdote} text="next anecdote"/>
+                    <h1>Anecdote with most votes</h1>
+                    <p>{anecdotes[most_index]}<br/>has {votes[most_index]} votes</p>
+
                 </div>
             )
 }
