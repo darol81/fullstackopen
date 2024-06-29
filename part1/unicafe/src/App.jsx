@@ -8,6 +8,15 @@ const Button = (props) =>
             )
 }
 
+const StatisticLine = (props) =>
+{
+    return  (
+                <>
+                    <li>{props.text} {props.value}</li>
+                </>
+            )
+}
+
 const Statistics = (props) =>
 {
     let all = props.data.reduce((sum, i) => sum + i, 0);
@@ -26,17 +35,17 @@ const Statistics = (props) =>
                 <>
                     <h1>statistics</h1>
                     <ul>
-                        <li>good {props.data[0]}</li>
-                        <li>neutral {props.data[1]}</li>
-                        <li>bad {props.data[2]}</li>
-                        <li>all {all} </li>
-                        <li>average {average}</li>
-                        <li>positive {positive}%</li>
+                        <StatisticLine text="good" value ={props.data[0]} />
+                        <StatisticLine text="neutral" value ={props.data[1]} />
+                        <StatisticLine text="bad" value ={props.data[2]} />
+                        <StatisticLine text="all" value ={all} />
+                        <StatisticLine text="average" value ={average} />
+                        <StatisticLine text="positive" value ={positive +" %"} />
                     </ul>
                 </>
             )
 }
- 
+
 const App = () => 
 {
     const [good, setGood] = useState(0)
