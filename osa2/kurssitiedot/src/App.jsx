@@ -36,6 +36,16 @@ const Total = (props) =>
             )
 }
 
+const Course = ({ course }) =>
+{
+    return  (
+                <>
+                    <Header course={course}/>
+                    <Content course={course}/>
+                </>
+            )
+}   
+
 const App = () => 
 {
     const course = 
@@ -59,9 +69,7 @@ const App = () =>
     }
     return (
       <div>
-        <Header course={course}/>
-        <Content course={course}/>
-        <Total course={course}/>
+        <Course course={course} />
       </div>
     )
 }
