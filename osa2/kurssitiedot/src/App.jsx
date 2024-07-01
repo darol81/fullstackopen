@@ -24,11 +24,7 @@ const Content = (props) =>
 
 const Total = (props) => 
 {
-    let sum = 0;
-    for(let part of props.course.parts)
-    {
-        sum += part.exercises;
-    }
+    let sum = props.course.parts.reduce((accumulator, curValue) => accumulator + curValue.exercises, 0);
     return  (    
                 <>
                     <p>total of {sum} exercises</p>
