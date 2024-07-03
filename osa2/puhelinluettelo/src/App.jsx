@@ -3,7 +3,7 @@ import './App.css';
 
 const App = () => 
 {
-    const [persons, setPersons] = useState([{ name: 'Arto Hellas' }]);
+    const [persons, setPersons] = useState([{ name: "Arto Hellas" }]);
     const [newName, setNewName] = useState("");
     
     const handleNameChange = (event) => 
@@ -14,6 +14,14 @@ const App = () =>
     const submitHandler = (event) => 
     {
         event.preventDefault();
+
+        /* Tarkistetaan, että nimi (newName) ei ole vielä listassa */
+        const names = persons.map(person => person.name);
+        if(names.includes(newName))
+        {
+            alert(`${newName} is already added to phonebook`);
+            return; 
+        }
         const new_persons = persons.concat({ name: newName });
         setPersons(new_persons);
         setNewName("")
