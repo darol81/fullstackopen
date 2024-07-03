@@ -3,9 +3,16 @@ import './App.css';
 
 const App = () => 
 {
-    const [persons, setPersons] = useState([{ name: "Arto Hellas", number: "040-1231244" }]);
+    const [persons, setPersons] = useState
+    ([
+        { name: 'Arto Hellas', number: '040-123456' },
+        { name: 'Ada Lovelace', number: '39-44-5323523' },
+        { name: 'Dan Abramov', number: '12-43-234345' },
+        { name: 'Mary Poppendieck', number: '39-23-6423122' }
+    ]);
     const [newName, setNewName] = useState("");
     const [newNumber, setNewNumber] = useState("");
+    const [curFilter, setFilter] = useState("");
     
     const handleNameChange = (event) => 
     {
@@ -15,6 +22,11 @@ const App = () =>
     const handleNumberChange = (event) => 
     {
         setNewNumber(event.target.value);
+    }
+
+    const handleFilterChange = (event) =>
+    {
+        setFilter(event.target.value);
     }
 
     const submitHandler = (event) => 
@@ -37,8 +49,11 @@ const App = () =>
     return  (
                 <div>
                     <h2>Phonebook</h2>
+                    <div>
+                        filter shown with <input value={curFilter} onChange={handleFilterChange} />
+                    </div>
                     <form onSubmit={submitHandler}>
-                    
+                    <h2>Add a new</h2>
                         <div>
                             name: <input value={newName} onChange={handleNameChange}/>
                         </div>
@@ -51,7 +66,7 @@ const App = () =>
                     </form>
                     <h2>Numbers</h2>
                     <ul>
-                        {persons.map(person => <li key={person.name}>{person.name} {person.number}</li>)}
+                        {persons.filter(person => person.name.toLowerCase().includes(curFilter.toLowerCase())).map(person => <li key={person.name}>{person.name} {person.number}</li>)}
                     </ul>
                 </div>
             )
