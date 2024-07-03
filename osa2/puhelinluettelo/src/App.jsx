@@ -1,5 +1,8 @@
-import { useState } from 'react'
-import './App.css';
+import { useState } from "react";
+import "./App.css";
+import Filter from "./components/Filter";
+import { PersonForm, InputElement } from "./components/PersonForm";
+import Persons from "./components/Persons";
 
 const App = () => 
 {
@@ -13,7 +16,12 @@ const App = () =>
     const [newName, setNewName] = useState("");
     const [newNumber, setNewNumber] = useState("");
     const [curFilter, setFilter] = useState("");
-    
+
+    const handleFilterChange = (event) =>
+    {
+        setFilter(event.target.value);
+    }
+        
     const handleNameChange = (event) => 
     {
         setNewName(event.target.value);
@@ -22,11 +30,6 @@ const App = () =>
     const handleNumberChange = (event) => 
     {
         setNewNumber(event.target.value);
-    }
-
-    const handleFilterChange = (event) =>
-    {
-        setFilter(event.target.value);
     }
 
     const submitHandler = (event) => 
@@ -49,25 +52,13 @@ const App = () =>
     return  (
                 <div>
                     <h2>Phonebook</h2>
-                    <div>
-                        filter shown with <input value={curFilter} onChange={handleFilterChange} />
-                    </div>
-                    <form onSubmit={submitHandler}>
-                    <h2>Add a new</h2>
-                        <div>
-                            name: <input value={newName} onChange={handleNameChange}/>
-                        </div>
-                        <div>
-                            number: <input value={newNumber} onChange={handleNumberChange}/>
-                        </div>                        
-                        <div>
-                            <button type="submit">add</button>
-                        </div>
-                    </form>
+                    <Filter handler={handleFilterChange} value={curFilter} />
+                    <PersonForm submit={submitHandler}>
+                        <InputElement label="Name" value={newName} changer={handleNameChange}/>
+                        <InputElement label="Number" value={newNumber} changer={handleNumberChange}/>
+                    </PersonForm>
                     <h2>Numbers</h2>
-                    <ul>
-                        {persons.filter(person => person.name.toLowerCase().includes(curFilter.toLowerCase())).map(person => <li key={person.name}>{person.name} {person.number}</li>)}
-                    </ul>
+                    <Persons persons={persons} filter={curFilter}/>
                 </div>
             )
 }
