@@ -1,9 +1,16 @@
+
+import DeleteButton from "./DeleteButton";
+
 // Destructuroidaan suorilta
-const Persons = ({ persons, filter }) =>
+const Persons = ({ persons, filter, deleteHandler }) => 
 {
     return  (
                 <ul>
-                    {persons.filter(person => person.name.toLowerCase().includes(filter.toLowerCase())).map(person => <li key={person.name}>{person.name} {person.number}</li>)}
+                    {persons.filter(person => person.name.toLowerCase().includes(filter.toLowerCase()))
+                    .map(person => 
+                    (
+                        <li key={person.id}> {person.name} {person.number} <DeleteButton label="Delete" onClick={() => deleteHandler(person.id, person.name)} /></li>
+                    ))}
                 </ul>
             )
 }

@@ -54,6 +54,22 @@ const App = () =>
             setNewNumber("");
         });        
     }
+
+    const deleteHandler = (id, name) => 
+    {
+        if(window.confirm(`Tuhotaanko ${name}?`)) 
+        {
+            server.deleteId(id).then(() => 
+            {
+                setPersons(persons.filter(person => person.id !== id));
+            }).catch(error => 
+            {
+                alert(`Henkilön ${name} poistaminen epäonnistui`);
+            });
+        }
+    }
+    
+
     return  (
                 <div>
                     <h2>Phonebook</h2>
@@ -63,7 +79,7 @@ const App = () =>
                         <InputElement label="Number" value={newNumber} changer={handleNumberChange}/>
                     </PersonForm>
                     <h2>Numbers</h2>
-                    <Persons persons={persons} filter={curFilter}/>
+                    <Persons persons={persons} filter={curFilter} deleteHandler={deleteHandler}/>
                 </div>
             )
 }
