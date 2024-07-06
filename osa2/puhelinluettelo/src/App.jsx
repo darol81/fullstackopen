@@ -43,8 +43,18 @@ const App = () =>
         const names = persons.map(person => person.name);
         if(names.includes(newName))
         {
-            alert(`${newName} is already added to phonebook`);
-            return; 
+            if(confirm(`${newName} is already added to phonebook, replace the old number with a new one?`))
+            {
+                let Obj = persons.find(person => person.name === newName);
+                const UpdatedPerson = { ...Obj, number: newNumber };
+                server.update(Obj.id, UpdatedPerson).then(response => 
+                {
+                    setPersons(persons.map(person => person.id !== Obj.id ? person : response));
+                    setNewName("");
+                    setNewNumber("");
+                });
+            }
+            return;
         }
         const newPerson = { name: newName, number: newNumber };
         server.create(newPerson).then(addedPerson => 
@@ -68,7 +78,6 @@ const App = () =>
             });
         }
     }
-    
 
     return  (
                 <div>
