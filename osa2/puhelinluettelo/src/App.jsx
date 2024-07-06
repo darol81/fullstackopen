@@ -3,7 +3,7 @@ import "./App.css";
 import Filter from "./components/Filter";
 import { PersonForm, InputElement } from "./components/PersonForm";
 import Persons from "./components/Persons";
-import axios from "axios";
+import server from "./services/server";
 
 const App = () => 
 {
@@ -13,13 +13,12 @@ const App = () =>
     const [curFilter, setFilter] = useState("");
 
     useEffect(() => 
+    {
+        server.getAll().then(response => 
         {
-            axios.get("http://localhost:3001/persons")
-                .then(response => 
-                {
-                    setPersons(response.data);
-                });
-        }, []);
+           setPersons(response);
+        });
+    }, []);
 
     const handleFilterChange = (event) =>
     {
@@ -47,12 +46,14 @@ const App = () =>
             alert(`${newName} is already added to phonebook`);
             return; 
         }
-        const new_persons = persons.concat({ name: newName, number : newNumber });
-        setPersons(new_persons);
-        setNewName("");
-        setNewNumber("");
+        const newPerson = { name: newName, number: newNumber };
+        server.create(newPerson).then(addedPerson => 
+        {      
+            setPersons(persons.concat(addedPerson));
+            setNewName("");
+            setNewNumber("");
+        });        
     }
-
     return  (
                 <div>
                     <h2>Phonebook</h2>
