@@ -64,6 +64,9 @@ const App = () =>
                     setNewName("");
                     setNewNumber("");
                     inform(`Updated ${newName}`, "notification");
+                }).catch(error => 
+                {
+                    inform(`Update for ${newName} failed. The existing information does not exist.`, "error");
                 });
             }
             return;
@@ -75,6 +78,9 @@ const App = () =>
             setNewName("");
             setNewNumber("");
             inform(`Added ${newName}`, "notification");
+        }).catch(error => 
+        {
+            inform(`Could not add ${newName}`, "error");
         });        
     }
 
