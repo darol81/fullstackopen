@@ -3,6 +3,7 @@ import "./App.css";
 import Filter from "./components/Filter";
 import { PersonForm, InputElement } from "./components/PersonForm";
 import Persons from "./components/Persons";
+import Notification from "./components/Notification";
 import server from "./services/server";
 
 const App = () => 
@@ -11,6 +12,7 @@ const App = () =>
     const [newName, setNewName] = useState("");
     const [newNumber, setNewNumber] = useState("");
     const [curFilter, setFilter] = useState("");
+    const [notification, setNotificationMsg] = useState(null);
 
     useEffect(() => 
     {
@@ -20,6 +22,15 @@ const App = () =>
         });
     }, []);
 
+    const inform = (msg) =>
+    {
+        setNotificationMsg(msg);
+        setTimeout(() => 
+        {          
+            setNotificationMsg(null);
+        }, 5000);
+    }
+    
     const handleFilterChange = (event) =>
     {
         setFilter(event.target.value);
@@ -52,6 +63,7 @@ const App = () =>
                     setPersons(persons.map(person => person.id !== Obj.id ? person : response));
                     setNewName("");
                     setNewNumber("");
+                    inform(`Updated ${newName}`);
                 });
             }
             return;
@@ -62,26 +74,28 @@ const App = () =>
             setPersons(persons.concat(addedPerson));
             setNewName("");
             setNewNumber("");
+            inform(`Added ${newName}`);
         });        
     }
 
     const deleteHandler = (id, name) => 
     {
-        if(window.confirm(`Tuhotaanko ${name}?`)) 
+        if(window.confirm(`Delete ${name}?`)) 
         {
             server.deleteId(id).then(() => 
             {
                 setPersons(persons.filter(person => person.id !== id));
+                inform(`Deleted ${name}`);
             }).catch(error => 
             {
-                alert(`Henkilön ${name} poistaminen epäonnistui`);
+                alert(`Deleting ${name} failed`);
             });
         }
     }
-
     return  (
                 <div>
                     <h2>Phonebook</h2>
+                    <Notification message={notification}/>
                     <Filter handler={handleFilterChange} value={curFilter} />
                     <PersonForm submit={submitHandler}>
                         <InputElement label="Name" value={newName} changer={handleNameChange}/>

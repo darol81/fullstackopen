@@ -3,3 +3,13 @@ ul
     list-style-type: none;
     padding: 0;
 }
+
+.notification
+{
+    color: green;
+    background-color: lightgrey;
+    border-color: green;
+    border: 5px solid green; 
+    border-radius: 5px;
+    padding: 10px;
+}
