@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import Note from "./components/Note";
 import noteService from "./services/notes";
 import Notification from "./components/Notification";
+import Footer from "./components/Footer";
 
 const App = () => 
 {
@@ -14,7 +15,7 @@ const App = () =>
         noteService.getAll().then(initialNotes => 
         {        
             setNotes(initialNotes);
-        })  
+        });  
     }, []);
     
     const addNote = (event) => 
@@ -61,18 +62,19 @@ const App = () =>
 
     return  (
                 <div>
-                <h1>Notes</h1>
-                <Notification message={errorMessage} />
-                <div>        
-                    <button onClick={() => setShowAll(!showAll)}>show {showAll ? 'important' : 'all' }</button>      
-                </div>      
-                <ul>
-                    {notesToShow.map(note => <Note key={note.id} note={note}  toggleImportance={() => toggleImportanceOf(note.id)} />)}
-                </ul>                
-                <form onSubmit={addNote}>
-                <input value={newNote}onChange={handleNoteChange}/>
-                <button type="submit">save</button>
-                </form> 
+                    <h1>Notes</h1>
+                    <Notification message={errorMessage} />
+                    <div>        
+                        <button onClick={() => setShowAll(!showAll)}>show {showAll ? 'important' : 'all' }</button>      
+                    </div>      
+                    <ul>
+                        {notesToShow.map(note => <Note key={note.id} note={note}  toggleImportance={() => toggleImportanceOf(note.id)} />)}
+                    </ul>                
+                    <form onSubmit={addNote}>
+                        <input value={newNote}onChange={handleNoteChange}/>
+                        <button type="submit">save</button>
+                    </form> 
+                    <Footer />
                 </div>
             );
 }

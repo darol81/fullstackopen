@@ -18,22 +18,22 @@
     {
       "id": "bec6",
       "content": "muumitalo",
-      "important": false
+      "important": true
     },
     {
       "id": "ad4d",
       "content": "muumitalo",
-      "important": true
+      "important": false
     },
     {
       "id": "d285",
       "content": "jeesus",
-      "important": true
+      "important": false
     },
     {
       "id": "9518",
       "content": "testi",
-      "important": false
+      "important": true
     },
     {
       "id": "b8cd",
