@@ -1,45 +1,51 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import axios from "axios";
+import "./App.css"
 import SearchBar from "./components/SearchBar";
 import Legend from "./components/Legend";
-import "./App.css"
-import axios from "axios";
 
-
-async function get_countries()
+async function restCountryData()
 {
     const baseUrl = "https://studies.cs.helsinki.fi/restcountries/api/all";
-
     try
     {
         const response = await axios.get(baseUrl);
-        const list = response.data.map(country => country.name.common);
-        console.log(list);
+        return response;
     }
     catch(error)
     {
         console.log(error);
     }
+    return null;
 }
 
 function App() 
 {
     const [countryName, setCountryName] = useState("");
+    const [allCountries, setAllCountries] = useState(null);
 
     const changer = (event) =>
     {
         setCountryName(event.target.value);
     }
+    useEffect( () => 
+    {
+        const getCountriesData = async() =>
+        {
+            const data = await restCountryData();
+            setAllCountries(data);
+        }
+        getCountriesData();
+    }, []);
 
-    const countries = get_countries();
-
-    return (
-            <div>
-                <form>
-                    <SearchBar changer={changer} />
-                    <Legend country={countryName} />
-                </form>
-            </div>
-    )
+    return  (
+                <div>
+                    <form>
+                        <SearchBar changer={changer} />
+                        <Legend countries={allCountries} countryName={countryName} />
+                    </form>
+                </div>
+            );
 }
 
 export default App
