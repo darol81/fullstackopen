@@ -17,7 +17,7 @@ async function restCountryData(name)
 }
 
 
-const Legend = ({ countries, countryName }) => 
+const Legend = ({ countries, countryName, setCountry }) => 
 {
     const [countryDetails, setCountryDetails] = useState(null);
 
@@ -74,7 +74,7 @@ const Legend = ({ countries, countryName }) =>
                         <ul>
                             {Object.entries(countryDetails.languages).map(([key, lang]) => (<li key={key}>{lang}</li>))}
                         </ul>
-                        <img src={countryDetails.flags.png}/>
+                        <img src={countryDetails.flags.png} alt={`Flag of ${countryDetails.name.common}`}/>
                     </>
                 );
     }
@@ -83,7 +83,7 @@ const Legend = ({ countries, countryName }) =>
                 <ul className="no_pad">
                     {list.map((country, index) => 
                     (
-                        <li key={index}>{country}</li>
+                        <li key={index}>{country} <button type="button" onClick={() => setCountry(country)}>Show</button></li>
                     ))}
                 </ul>
             );

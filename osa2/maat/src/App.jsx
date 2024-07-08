@@ -42,7 +42,7 @@ function App()
                 <div>
                     <form>
                         <SearchBar changer={changer} />
-                        <Legend countries={allCountries} countryName={countryName} />
+                        <Legend countries={allCountries} countryName={countryName} setCountry={setCountryName} />
                     </form>
                 </div>
             );
