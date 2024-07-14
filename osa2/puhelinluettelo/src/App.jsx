@@ -80,9 +80,10 @@ const App = () =>
             inform(`Added ${newName}`, "notification");
         }).catch(error => 
         {
-            inform(`Could not add ${newName}, Error: ${error.response.data}`, "error");
+            inform(`Could not add ${newName}, Error: ${error.response.data.error}`, "error");
         });        
     }
+    
 
     const deleteHandler = (id, name) => 
     {
