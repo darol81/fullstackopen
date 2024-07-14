@@ -19,11 +19,6 @@ app.use(express.json());
 
 const Note = require("./models/note");
 
-const generateId = () => 
-{
-    const maxId = notes.length > 0 ? Math.max(...notes.map(n => Number(n.id))) : 0;
-    return String(maxId + 1);
-}
 
 /* ROUTES, main */
 
@@ -46,7 +41,6 @@ app.post("/api/notes", (request, response) =>
     {
         content: body.content,
         important: body.important || false,
-        id: generateId()
     };
   
     notes = notes.concat(note);
