@@ -26,29 +26,39 @@ const favoriteBlog = (blogs) =>
     return selectedBlog;
 };
 
-const mostBlogs = (blogs) =>
+const countMost = (blogs, callbackFunc, valueKey) => 
 {
     let most = -1;
     let author;
 
     let blogAmounts = { };
-    blogs.map( (blog) => 
+    blogs.forEach( (blog) => 
     {
-        if(!(blog.author in blogAmounts))
+        if (!(blog.author in blogAmounts)) 
         {
             blogAmounts[blog.author] = 0;
         }
-        blogAmounts[blog.author]++;
-        if(!author || blogAmounts[blog.author] > most)
+        blogAmounts[blog.author] += callbackFunc(blog);
+        if (!author || blogAmounts[blog.author] > most) 
         {
             most = blogAmounts[blog.author];
             author = blog.author;
         }
     });
-    return { author: author, blogs: most };
+    return { author: author, [valueKey]: most };
 };
+
+const mostLikes = (blogs) =>
+{
+    return countMost(blogs, blog => blog.likes, "likes"); // haetaan blogin likemäärät
+};
+
+const mostBlogs = (blogs) =>
+{
+    return countMost(blogs, () => 1, "blogs"); // jokainen blogi palauttaa ykkösen, lasketaan blogien määrää foreachin sisällä.
+}
 
 module.exports = 
 {
-	dummy, totalLikes, favoriteBlog, mostBlogs
+	dummy, totalLikes, favoriteBlog, mostBlogs, mostLikes
 };
