@@ -17,7 +17,7 @@ blogsRouter.post("/", (request, response, next) =>
 
 /* GET routes */
 
-blogsRouter.get("", (request, response, next) =>
+blogsRouter.get("/", (request, response, next) =>
 {
 	Blog.find({}).then(blogs =>
 	{
