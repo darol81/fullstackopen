@@ -1,14 +1,14 @@
-const info = (...params) => 
+const info = (...params) =>
 {
-	console.log(...params);
-};
+  console.log(...params)
+}
 
-const error = (...params) => 
+const error = (...params) =>
 {
-	console.error(...params);
-};
+  console.error(...params)
+}
 
-module.exports = 
+module.exports =
 {
-	info, error
-};
+  info, error
+}
