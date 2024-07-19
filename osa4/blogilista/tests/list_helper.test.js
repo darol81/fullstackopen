@@ -96,4 +96,17 @@ describe("list_helper", () =>
             assert.deepEqual(favoriteBlog, resultBlog);
         });
     });
+    describe("mostBlogs", () =>
+    {
+        test("mostBlogs returns author with most written blogs", () =>
+        {
+            const resultObj = listHelper.mostBlogs(listWithManyBlogs);
+            const compareObj = 
+            {
+                author: "Robert C. Martin",
+                blogs: 3
+            };
+            assert.deepEqual(resultObj, compareObj);
+        });
+    });
 });
