@@ -11,7 +11,23 @@ const totalLikes = (blogs) =>
 	},  0);
 };
 
+const favoriteBlog = (blogs) =>
+{
+    let most = 0; 
+    let selectedBlog;
+    blogs.map(blog => 
+    {
+        if(selectedBlog == undefined || blog.likes > most)
+        {
+            selectedBlog = blog; 
+            most = blog.likes;
+        }
+    });
+    return selectedBlog;
+};
+
+
 module.exports = 
 {
-	dummy, totalLikes
+	dummy, totalLikes, favoriteBlog
 };
