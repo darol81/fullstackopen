@@ -1,5 +1,6 @@
 const config = require("./utils/config");
 const express = require("express");
+require("express-async-errors");
 const app = express();
 const morgan = require("morgan");
 const cors = require("cors");
@@ -14,14 +15,20 @@ const blogsRouter = require("./controllers/blogs");
 
 const mongoose = require("mongoose");
 mongoose.set("strictQuery", false);
-mongoose.connect(config.MONGODB_URI).then( () =>
-{
-	logger.info("Connected to MongoDB.");
-}).catch( (error) =>
-{
-	logger.error("Error connecting to MongoDB:", error.message);
-});
 
+async function connectMongo() 
+{
+	try 
+	{
+		await mongoose.connect(config.MONGODB_URI);
+		logger.info("Connected to MongoDB.");
+	} 
+	catch(error)
+	{
+		logger.error("Error connecting to MongoDB:", error.message);
+	}
+}
+connectMongo();
 
 /* Middlewares */
 app.use(cors());
