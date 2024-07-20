@@ -32,6 +32,22 @@ describe("blog_api", () =>
             assert.strictEqual(blog._id, undefined);
         });
     });
+    test("it adds a blog with POST request", async () => 
+    {
+        const content = 
+        {
+            "title": "Mastery of PHP",
+            "author": "Peter Pan",
+            "url": "http://www.php.net",
+            "likes": 21
+        };
+        const response = await api.post("/api/blogs/").send(content).expect('Content-Type', /application\/json/).expect(201);
+        const savedBlog = await Blog.findById(response.body.id); 
+        assert.strictEqual(savedBlog.title, content.title);
+        assert.strictEqual(savedBlog.author, content.author);
+        assert.strictEqual(savedBlog.url, content.url);
+        assert.strictEqual(savedBlog.likes, content.likes);
+    });
 });
 
 
