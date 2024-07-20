@@ -38,9 +38,9 @@ app.use(express.json());
 /* Morgan middleware */
 if (process.env.NODE_ENV !== "test")
 {
-    morgan.token("body", request => JSON.stringify(request.body));
-    const tiny_format = ":method :url :status :res[content-length] - :response-time ms :body";
-    app.use(morgan(tiny_format));
+	morgan.token("body", request => JSON.stringify(request.body));
+	const tiny_format = ":method :url :status :res[content-length] - :response-time ms :body";
+	app.use(morgan(tiny_format));
 }
 
 /* Routes */
