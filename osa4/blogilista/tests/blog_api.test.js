@@ -60,10 +60,22 @@ describe("blog_api", () =>
         const savedBlog = await Blog.findById(response.body.id); 
         assert.strictEqual(savedBlog.likes, 0);
     });
-    /*test("it responds with 400 Bad Request when title or url is missing", async() =>
+    test("it responds with 400 Bad Request when title or url is missing", async() =>
     {
-    }); */
-
+        const content = 
+        {
+            "title": "Learn Cobol in 4000 days",
+            "author": "Christopher Kobold",
+            "url": "http://www.cobol.net",
+            "likes": 21
+        };
+        let blog = { ...content };
+        delete blog.title;
+        await api.post("/api/blogs/").send(blog).expect(400);
+        blog = { ...content };
+        delete blog.url;
+        await api.post("/api/blogs/").send(blog).expect(400);
+    }); 
 });
 
 
