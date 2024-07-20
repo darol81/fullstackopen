@@ -32,7 +32,7 @@ describe("blog_api", () =>
             assert.strictEqual(blog._id, undefined);
         });
     });
-    test("it adds a blog with POST request", async () => 
+    test("it adds a blog with POST request", async() => 
     {
         const content = 
         {
@@ -48,6 +48,22 @@ describe("blog_api", () =>
         assert.strictEqual(savedBlog.url, content.url);
         assert.strictEqual(savedBlog.likes, content.likes);
     });
+    test("it sets 0 likes if likes-property is not given", async() =>
+    {
+        const content = 
+        {
+            "title": "Java for Dummies",
+            "author": "Warren Buffett",
+            "url": "http://www.oracleofomaha.com"
+        };
+        const response = await api.post("/api/blogs/").send(content).expect('Content-Type', /application\/json/).expect(201);
+        const savedBlog = await Blog.findById(response.body.id); 
+        assert.strictEqual(savedBlog.likes, 0);
+    });
+    /*test("it responds with 400 Bad Request when title or url is missing", async() =>
+    {
+    }); */
+
 });
 
 
