@@ -1,4 +1,4 @@
-const { test, after, beforeEach } = require("node:test");
+const { test, after, beforeEach, describe } = require("node:test");
 const assert = require("node:assert");
 const mongoose = require("mongoose");
 const helper = require("./test_helper.js");
@@ -13,11 +13,27 @@ beforeEach(async() =>
 	await Blog.insertMany(helper.initialBlogs);
 });
 
-test("it returns correct amoung of blogs", async() =>
+describe("blog_api", () =>
 {
-	const response = await api.get("/api/blogs");
-	assert.strictEqual(response.body.length, helper.initialBlogs.length);
+    test("it returns correct amoung of blogs", async() =>
+    {
+        const response = await api.get("/api/blogs");
+        assert.strictEqual(response.body.length, helper.initialBlogs.length);
+    });
+
+    test("it returns id as identifying field instead of _id", async() =>
+    {
+        const response = await api.get("/api/blogs");
+        const blogs = response.body;
+
+        blogs.forEach(blog => 
+        {
+            assert.ok(blog.id);
+            assert.strictEqual(blog._id, undefined);
+        });
+    });
 });
+
 
 after(async() =>
 {
