@@ -3,7 +3,8 @@ POST http://localhost:3001/api/notes/ HTTP/1.1
 content-type: application/json
 
 {
-    "content": "Testing backend with REST client",
-    "important": true
+    "content": "Toka ID-numerolla",
+    "important": true,
+    "userId": "669fab344b44cf24af616e4c"
 }
 
