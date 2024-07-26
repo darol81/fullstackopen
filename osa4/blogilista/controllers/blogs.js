@@ -27,17 +27,17 @@ blogsRouter.get("/", async(request, response) =>
 	response.json(blogs);
 });
 
-blogsRouter.get('/:id', async (request, response) =>
+blogsRouter.get("/:id", async (request, response) =>
 {
-    const blog = await Blog.findById(request.params.id);
-    if(blog)
-    {
-        response.json(blog);
-    }
-    else
-    {
-        response.status(404).end();
-    }
+	const blog = await Blog.findById(request.params.id);
+	if(blog)
+	{
+		response.json(blog);
+	}
+	else
+	{
+		response.status(404).end();
+	}
 });
 
 /* PUT routes */
@@ -47,10 +47,10 @@ blogsRouter.put("/:id", async (request, response) =>
 
 	const content = 
     {
-        title: body.title,
-        author: body.author,
-        url: body.url,
-        likes: body.likes,
+    	title: body.title,
+    	author: body.author,
+    	url: body.url,
+    	likes: body.likes,
     };
 	const updatedBlog = await Blog.findByIdAndUpdate(request.params.id, content,
     {

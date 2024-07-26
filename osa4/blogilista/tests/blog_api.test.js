@@ -76,30 +76,30 @@ describe("blog_api", () =>
 		delete blog.url;
 		await api.post("/api/blogs/").send(blog).expect(400);
 	}); 
-    test("DELETE with status code 2024 successful if id is valid", async() =>
-    {
+	test("DELETE with status code 2024 successful if id is valid", async() =>
+	{
     	const blogsAtStart = await Blog.find({});
-        const blogToDelete = blogsAtStart[0]; 
+		const blogToDelete = blogsAtStart[0]; 
 
-        await api.delete(`/api/blogs/${blogToDelete.id}`).expect(204);
+		await api.delete(`/api/blogs/${blogToDelete.id}`).expect(204);
 
     	const blogsAtEnd = await Blog.find({});
 
-        assert.strictEqual(blogsAtEnd.length, blogsAtStart.length - 1);
-        const contents = blogsAtEnd.map(r => r.title);
-        assert(!contents.includes(blogToDelete.title));
-    });
+		assert.strictEqual(blogsAtEnd.length, blogsAtStart.length - 1);
+		const contents = blogsAtEnd.map(r => r.title);
+		assert(!contents.includes(blogToDelete.title));
+	});
 
-    test("PUT changes property value", async() =>
-    {
-        const blogs = await Blog.find({});
-        const blogToModify = blogs[0];
-        const new_author = { "author": "Jimmy James" };
-        await api.put(`/api/blogs/${blogToModify.id}`).send(new_author).expect(200);
+	test("PUT changes property value", async() =>
+	{
+		const blogs = await Blog.find({});
+		const blogToModify = blogs[0];
+		const new_author = { "author": "Jimmy James" };
+		await api.put(`/api/blogs/${blogToModify.id}`).send(new_author).expect(200);
 
-        const modifiedBlog = await Blog.findById(blogToModify.id);
-        assert.strictEqual(modifiedBlog.author, new_author.author);
-    });
+		const modifiedBlog = await Blog.findById(blogToModify.id);
+		assert.strictEqual(modifiedBlog.author, new_author.author);
+	});
 });
 
 after(async() =>

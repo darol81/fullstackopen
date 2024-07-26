@@ -10,7 +10,7 @@ const logger = require("./utils/logger");
 /* Route controllers */
 const notesRouter = require("./controllers/notes");
 const usersRouter = require("./controllers/users");
-const loginRouter = require('./controllers/login')
+const loginRouter = require("./controllers/login");
 
 /* Database Connection with Mongoose */
 const mongoose = require("mongoose");
@@ -37,7 +37,7 @@ app.use(morgan(tiny_format));
 /* Routes */
 app.use("/api/notes", notesRouter);
 app.use("/api/users", usersRouter);
-app.use('/api/login', loginRouter)
+app.use("/api/login", loginRouter);
 
 /* Own middleware */
 app.use(middleware.unknownEndpoint);

@@ -4,7 +4,7 @@ const listHelper = require("../utils/list_helper");
 const testHelper = require("./test_helper");
 describe("list_helper", () => 
 {
-    const listWithManyBlogs = testHelper.listWithManyBlogs;
+	const listWithManyBlogs = testHelper.listWithManyBlogs;
 	describe("totalLikes", () =>
 	{
 		test("when list has only one blog equals the likes of that", () => 

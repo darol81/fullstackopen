@@ -3,6 +3,7 @@ const usersRouter = require("express").Router();
 const User = require("../models/user");
 
 /* POST */
+
 usersRouter.post("/", async (request, response) => 
 {
 	const { username, name, password } = request.body;
@@ -25,8 +26,9 @@ usersRouter.post("/", async (request, response) =>
 /* GET */
 usersRouter.get("/", async (request, response) => 
 {
-	const users = await User.find({}).populate("notes", { content: 1, important: 1 });
-	response.json(users);
+	const users = await User.find({});
+    //const users = await User.find({}).populate("blogs", { content: 1, important: 1 });
+    response.json(users);
 });
 
 module.exports = usersRouter;

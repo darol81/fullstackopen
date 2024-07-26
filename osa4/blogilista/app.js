@@ -10,6 +10,7 @@ const logger = require("./utils/logger");
 /* Route controllers */
 
 const blogsRouter = require("./controllers/blogs");
+const usersRouter = require("./controllers/users");
 
 /* Database Connection with Mongoose */
 
@@ -44,11 +45,10 @@ if (process.env.NODE_ENV !== "test")
 }
 
 /* Routes */
-
 app.use("/api/blogs", blogsRouter);
+app.use("/api/users", usersRouter);
 
 /* Own middleware */
 app.use(middleware.unknownEndpoint);
-app.use(middleware.errorHandler);
 
 module.exports = app;

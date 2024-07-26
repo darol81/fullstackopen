@@ -103,7 +103,7 @@ describe("when there is initially some notes saved", () =>
 		{
 			const newNote =
             {
-                important: true
+            	important: true
             };
 
 			await api.post("/api/notes").send(newNote).expect(400);
@@ -149,9 +149,9 @@ describe("when there is initially some notes saved", () =>
 
 			const newUser = 
             {
-                username: "mluukkai",
-                name: "Matti Luukkainen",
-                password: "salainen",
+            	username: "mluukkai",
+            	name: "Matti Luukkainen",
+            	password: "salainen",
             };
 
 			await api.post("/api/users").send(newUser).expect(201).expect("Content-Type", /application\/json/);
@@ -162,23 +162,23 @@ describe("when there is initially some notes saved", () =>
 			const usernames = usersAtEnd.map(u => u.username);
 			assert(usernames.includes(newUser.username));
 		});
-        test('creation fails with proper statuscode and message if username already taken', async () => 
-        {
-            const usersAtStart = await helper.usersInDb()
+		test("creation fails with proper statuscode and message if username already taken", async () => 
+		{
+			const usersAtStart = await helper.usersInDb();
 
-            const newUser = 
+			const newUser = 
             {
-                username: 'root',
-                name: 'Superuser',
-                password: 'salainen',
-            }
+            	username: "root",
+            	name: "Superuser",
+            	password: "salainen",
+            };
 
-            const result = await api.post('/api/users').send(newUser).expect(400).expect('Content-Type', /application\/json/)
+			const result = await api.post("/api/users").send(newUser).expect(400).expect("Content-Type", /application\/json/);
 
-            const usersAtEnd = await helper.usersInDb()
-            assert(result.body.error.includes('expected `username` to be unique'))
-            assert.strictEqual(usersAtEnd.length, usersAtStart.length)
-        })        
+			const usersAtEnd = await helper.usersInDb();
+			assert(result.body.error.includes("expected `username` to be unique"));
+			assert.strictEqual(usersAtEnd.length, usersAtStart.length);
+		});        
 	});
 });
 
