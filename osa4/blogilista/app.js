@@ -50,5 +50,6 @@ app.use("/api/users", usersRouter);
 
 /* Own middleware */
 app.use(middleware.unknownEndpoint);
+app.use(middleware.errorHandler);
 
 module.exports = app;

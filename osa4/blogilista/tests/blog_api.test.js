@@ -76,7 +76,7 @@ describe("blog_api", () =>
 		delete blog.url;
 		await api.post("/api/blogs/").send(blog).expect(400);
 	}); 
-	test("DELETE with status code 2024 successful if id is valid", async() =>
+	test("DELETE with status code 204 successful if id is valid", async() =>
 	{
     	const blogsAtStart = await Blog.find({});
 		const blogToDelete = blogsAtStart[0]; 
@@ -100,6 +100,7 @@ describe("blog_api", () =>
 		const modifiedBlog = await Blog.findById(blogToModify.id);
 		assert.strictEqual(modifiedBlog.author, new_author.author);
 	});
+    
 });
 
 after(async() =>
