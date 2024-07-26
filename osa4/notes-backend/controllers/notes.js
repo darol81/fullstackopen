@@ -50,11 +50,11 @@ notesRouter.put("/:id", async (request, response) =>
     };
 
 	const updatedNote = await Note.findByIdAndUpdate(request.params.id, note,
-		{
-			new: true,
-			runValidators: true,
-			context: "query"
-		});
+    {
+        new: true,
+        runValidators: true,
+        context: "query"
+    });
 
 	response.json(updatedNote);
 });

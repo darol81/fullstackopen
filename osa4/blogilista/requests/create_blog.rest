@@ -3,8 +3,8 @@ POST http://localhost:3003/api/blogs/ HTTP/1.1
 content-type: application/json
 
 {
-    "title": "Building APIs with Express",
-    "author": "Alex Johnson",
-    "url": "http://www.expressapi.com",
-    "likes": 68
+    "title": "Using Mongoose like a PRO",
+    "author": "Mike 'Mongo' Southern",
+    "url": "http://www.mongodb.com",
+    "likes": 22
 }

@@ -2,20 +2,25 @@ const blogsRouter = require("express").Router();
 
 /* Models */
 const Blog = require("../models/blog");
-
+const User = require("../models/user");
 /* POST routes */
 
 blogsRouter.post("/", async(request, response) =>
 {
 	const { title, author, url, likes } = request.body;
+    const userId = await User.findOne().sort({ _id: 1 }); // haetaan eka käyttäjä
 	const blog = new Blog
 	({
 		title,
 		author,
 		url,
-		likes: likes || 0
+		likes: likes || 0,
+        user: userId
 	});
+
 	const result = await blog.save();
+    userId.blogs = userId.blogs.concat(result._id);
+    await userId.save();
 	response.status(201).json(result);
 });
 
@@ -23,7 +28,7 @@ blogsRouter.post("/", async(request, response) =>
 
 blogsRouter.get("/", async(request, response) =>
 {
-	const blogs = await Blog.find({});
+    const blogs = await Blog.find({}).populate("user", { username: 1, name: 1 , id: 1 });
 	response.json(blogs);
 });
 
