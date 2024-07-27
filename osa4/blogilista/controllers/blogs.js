@@ -1,26 +1,42 @@
+const jwt = require("jsonwebtoken");
 const blogsRouter = require("express").Router();
 
 /* Models */
 const Blog = require("../models/blog");
 const User = require("../models/user");
-/* POST routes */
 
+const getTokenFrom = request => 
+{  
+	const authorization = request.get("authorization");  
+	if (authorization && authorization.startsWith("Bearer ")) 
+	{    
+		return authorization.replace("Bearer ", "");  
+	}  
+	return null;
+};
+
+/* POST routes */
 blogsRouter.post("/", async(request, response) =>
 {
 	const { title, author, url, likes } = request.body;
-    const userId = await User.findOne().sort({ _id: 1 }); // haetaan eka käyttäjä
-	const blog = new Blog
+	const decodedToken = jwt.verify(getTokenFrom(request), process.env.SECRET);  
+	if (!decodedToken.id) 
+	{    
+		return response.status(401).json({ error: "token invalid" });  
+	}
+    const user = await User.findById(decodedToken.id);
+ 	const blog = new Blog
 	({
 		title,
 		author,
 		url,
 		likes: likes || 0,
-        user: userId
+        user: user._id
 	});
 
 	const result = await blog.save();
-    userId.blogs = userId.blogs.concat(result._id);
-    await userId.save();
+    user.blogs = user.blogs.concat(result._id);
+    await user.save();
 	response.status(201).json(result);
 });
 
