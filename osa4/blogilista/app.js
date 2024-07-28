@@ -44,13 +44,15 @@ if (process.env.NODE_ENV !== "test")
 	const tiny_format = ":method :url :status :res[content-length] - :response-time ms :body";
 	app.use(morgan(tiny_format));
 }
+/* Token Extractor */
+app.use(middleware.tokenExtractor);
 
 /* Routes */
 app.use("/api/blogs", blogsRouter);
 app.use("/api/users", usersRouter);
 app.use("/api/login", loginRouter);
 
-/* Own middleware */
+/* Other middleware */
 app.use(middleware.unknownEndpoint);
 app.use(middleware.errorHandler);
 
