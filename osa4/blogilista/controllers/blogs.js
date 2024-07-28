@@ -1,4 +1,3 @@
-const jwt = require("jsonwebtoken");
 const blogsRouter = require("express").Router();
 
 /* Models */
@@ -9,12 +8,13 @@ const User = require("../models/user");
 blogsRouter.post("/", async(request, response) =>
 {
 	const { title, author, url, likes } = request.body;
-	const decodedToken = jwt.verify(request.token, process.env.SECRET);  
-	if (!decodedToken.id) 
+    const userId = request.user;
+
+    if(!userId)
 	{    
 		return response.status(401).json({ error: "token invalid" });  
 	}
-    const user = await User.findById(decodedToken.id);
+    const user = await User.findById(userId);
  	const blog = new Blog
 	({
 		title,
@@ -81,13 +81,13 @@ blogsRouter.delete("/:id", async (request, response) =>
     {
         return response.status(404).json({ error: "Blog not found" });
     }
-	const decodedToken = jwt.verify(request.token, process.env.SECRET);  
-	if (!decodedToken.id) 
+    const user = request.user;
+	if(!user)
 	{    
 		return response.status(401).json({ error: "token invalid" });  
 	}
     /* Katsotaan, että blogin kirjoittaja ja poistaja on sama */
-    if(blog.user._id.toString() !== decodedToken.id)
+    if(blog.user._id.toString() !== user)
     {
 	    return response.status(401).json({ error: "unauthorized deletion" });  
     }
