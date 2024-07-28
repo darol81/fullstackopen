@@ -76,7 +76,23 @@ blogsRouter.put("/:id", async (request, response) =>
 
 blogsRouter.delete("/:id", async (request, response) =>
 {
+    const blog = await Blog.findById(request.params.id);
+    if (!blog) 
+    {
+        return response.status(404).json({ error: "Blog not found" });
+    }
+	const decodedToken = jwt.verify(request.token, process.env.SECRET);  
+	if (!decodedToken.id) 
+	{    
+		return response.status(401).json({ error: "token invalid" });  
+	}
+    /* Katsotaan, että blogin kirjoittaja ja poistaja on sama */
+    if(blog.user._id.toString() !== decodedToken.id)
+    {
+	    return response.status(401).json({ error: "unauthorized deletion" });  
+    }
 	await Blog.findByIdAndDelete(request.params.id);
+    await User.findByIdAndUpdate(blog.user._id, { $pull: { blogs: blog._id } });
 	response.status(204).end();
 });
 
