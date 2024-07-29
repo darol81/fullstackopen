@@ -1,0 +1,11 @@
+
+POST http://localhost:3003/api/blogs/ HTTP/1.1
+content-type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Im1pa2tvIiwiaWQiOiI2NmE2ODY1N2RiOWY1ZWM5ZTU2MjgzMDMiLCJpYXQiOjE3MjIxODk0MDd9.SuRMdFKCF6P1bpxhlNYVk2OxOz5Fyi4-UqLNLD_ty7k
+
+{
+    "title": "Mastery of WebTokens",
+    "author": "Mikko Mallikas",
+    "url": "www.alfonsaberg.se",
+    "likes": 12
+}

@@ -1,0 +1,7 @@
+
+PUT http://localhost:3003/api/blogs/669a6720aa1664c5e34286b2 HTTP/1.1
+content-type: application/json
+
+{
+    "author": "John Doe"
+}
