@@ -4,12 +4,12 @@ import blogService from './services/blogs'
 
 const App = () => 
 {
-    const [blogs, setBlogs] = useState([])
+    const [blogs, setBlogs] = useState([]);
 
     useEffect(() => 
     {
-        blogService.getAll().then(blogs => setBlogs(blogs)) 
-    }, [])
+        blogService.getAll().then(blogs => setBlogs(blogs));
+    }, []);
 
     return  (
                 <div>
@@ -19,4 +19,4 @@ const App = () =>
             )
 }
 
-export default App
+export default App;
