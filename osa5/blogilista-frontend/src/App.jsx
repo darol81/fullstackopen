@@ -10,16 +10,20 @@ const App = () =>
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
     const [user, setUser] = useState(null);
-    const [notificationMsg, setNotificationMsg] = useState(null);
+    const [notification, setNotification] = useState(null);
 
-    const setErrorMessage = (message) =>
+    const [title, setTitle] = useState("");
+    const [author, setAuthor] = useState("");
+    const [url, setUrl] = useState("");
+
+    const inform = (msg, type) =>
     {
-        setNotificationMsg(message);
+        setNotification({ message: msg, type: type });
         setTimeout(() => 
-        {        
-            setNotificationMsg(null);
-        }, 5000);    
-    };
+        {          
+            setNotification(null);
+        }, 5000);
+    }
 
     useEffect(() => 
     {
@@ -36,6 +40,12 @@ const App = () =>
         }
     }, []);
 
+    const handleLogout = async(event) =>
+    {
+        event.preventDefault();
+        window.localStorage.removeItem("currentLogin");
+        setUser(null);
+    }
     const handleLogin = async(event) => 
     {    
         event.preventDefault();  
@@ -49,23 +59,33 @@ const App = () =>
         } 
         catch(exception) 
         {     
-            setErrorMessage("Wrong credentials");     
+            inform("Wrong credentials", "error");
         }
     }
-
-    const handleLogout = async(event) =>
+    const handleBlogSubmit = async(event) =>
     {
         event.preventDefault();
-        window.localStorage.removeItem("currentLogin");
-        setUser(null);
+        try
+        {
+            const newBlog = await blogService.postBlog(user.token, { title, author, url });
+            setBlogs([...blogs, newBlog]); 
+            setTitle("");            
+            setAuthor("");
+            setUrl("");
+            inform("Blog "+ newBlog.title +" by "+ newBlog.author +" added successfully.", "success");
+        }
+        catch(exception)
+        {
+            inform("Couldn't create blog.", "error");
+        }
     }
-
     /* Login screen */
     if(user === null) 
     {
         return  (
                     <div>
                         <h2>Log in to application</h2>
+                        <Notification data={notification}></Notification>
                         <form onSubmit={handleLogin}>
                             <label htmlFor="username">Username:</label>
                             <input type="text" id="username" name="username" onChange={({ target }) => setUsername(target.value)} required/><br/>
@@ -75,7 +95,6 @@ const App = () =>
 
                             <button type="submit">Login</button>
                         </form> 
-                        <Notification message={notificationMsg}></Notification>
                     </div>
                 );
     }
@@ -83,9 +102,21 @@ const App = () =>
     return  (   
                 <div>
                     {user.name} logged in <button type="button" onClick={handleLogout}>Logout</button>
-                    <h2>blogs</h2>
+                    <Notification data={notification}></Notification>
+                    <h2>Blogs</h2>
                     {blogs.map(blog =><Blog key={blog.id} blog={blog} />)}
+                    <h2>Create new</h2>
+                        <form onSubmit={handleBlogSubmit}>
+                            <label htmlFor="title">Title:</label>
+                            <input type="text" id="title" name="title" onChange={({ target }) => setTitle(target.value)} /><br/>
+                            <label htmlFor="author">Author:</label>
+                            <input type="text" id="author" name="author" onChange={({ target }) => setAuthor(target.value)} /><br/>
+                            <label htmlFor="url">Url:</label>
+                            <input type="url" id="url" name="url" onChange={({ target }) => setUrl(target.value)} /><br/>
+                            <button type="submit">Create</button>
+                        </form>
                 </div>
+
             );
 }
 
