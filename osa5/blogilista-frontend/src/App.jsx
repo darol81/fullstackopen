@@ -113,7 +113,7 @@ const App = () =>
                     <Notification data={notification}></Notification>
                     <h2>Blogs</h2>
                     {blogs.map(blog => 
-                        <Blog key={blog.id} blog={blog} token={user.token} sortBlogs={sortBlogs} blogs={blogs}/>
+                        <Blog key={blog.id} blog={blog} user={user} sortBlogs={sortBlogs} blogs={blogs}/>
                     )}
                     <br></br>
                     
