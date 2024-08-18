@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import blogService from '../services/blogs'
+import PropTypes from 'prop-types'
 
 /*  Blog saa propsina myös listan blogeista ja sortBlogs-funktion. Niitä tarvitaan
     jotta blogien järjestystä voidaan muuttaa, kun klikataan like-näppäintä.
@@ -74,6 +75,14 @@ const Blog = ({ blog, user, sortBlogs, blogs }) =>
             </div>
         </div>
     );
+}
+
+Blog.propTypes = 
+{
+    blog: PropTypes.object.isRequired,
+    user: PropTypes.object.isRequired,
+    sortBlogs: PropTypes.func.isRequired,
+    blogs: PropTypes.array.isRequired,
 }
 
 export default Blog;
