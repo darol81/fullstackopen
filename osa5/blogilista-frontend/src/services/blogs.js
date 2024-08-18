@@ -9,9 +9,9 @@ const getAll = () =>
 
 const postBlog = (token, content) =>
 {
-    const headers = { 'Authorization': `Bearer ${token}`};
-    const request = axios.post(baseUrl, content, { headers });
-    return request.then(response => response.data);   
+	const headers = { "Authorization": `Bearer ${token}`};
+	const request = axios.post(baseUrl, content, { headers });
+	return request.then(response => response.data);   
 };
 
 export default { getAll, postBlog };
