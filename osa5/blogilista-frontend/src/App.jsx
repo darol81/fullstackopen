@@ -14,7 +14,7 @@ const App = () =>
     const [user, setUser] = useState(null);
     const [notification, setNotification] = useState(null);
 
-
+    /* Type voi olla error tai success. Jos on jotain muuta, ei CSS tunnista */
     const inform = (msg, type) =>
     {
         setNotification({ message: msg, type: type });
@@ -24,9 +24,21 @@ const App = () =>
         }, 5000);
     }
 
-    useEffect(() => 
+    /* Järjestetään suurimmasta pienimpään, ja merkataan blogs stateen */
+    const sortBlogs = (list) => 
     {
-        blogService.getAll().then(blogs => setBlogs(blogs));
+        const sortedBlogs = [...list].sort((a, b) => b.likes - a.likes);
+        setBlogs(sortedBlogs);
+    };
+
+    useEffect(() => 
+    {   
+        const fetchBlogs = async () => 
+        {
+            const tmp = await blogService.getAll();
+            sortBlogs(tmp); // Järjestetään blogit oikeaan järjestykseen heti aluksi
+        };
+        fetchBlogs();
     }, []);
 
     useEffect(() => 
@@ -44,7 +56,7 @@ const App = () =>
         try
         {
             const newBlog = await blogService.postBlog(user.token, { title, author, url });
-            setBlogs([...blogs, newBlog]); 
+            sortBlogs([...blogs, newBlog]);
             inform("Blog "+ newBlog.title +" by "+ newBlog.author +" added successfully.", "success");
         }
         catch(exception)
@@ -100,8 +112,11 @@ const App = () =>
                     {user.name} logged in <button type="button" onClick={handleLogout}>Logout</button>
                     <Notification data={notification}></Notification>
                     <h2>Blogs</h2>
-                    {blogs.map(blog =><Blog key={blog.id} blog={blog} token={user.token} />)}
+                    {blogs.map(blog => 
+                        <Blog key={blog.id} blog={blog} token={user.token} sortBlogs={sortBlogs} blogs={blogs}/>
+                    )}
                     <br></br>
+                    
                     <Togglable buttonLabel="New note">
                         <BlogForm submitHandler={handleBlogSubmit}/>
                     </Togglable>

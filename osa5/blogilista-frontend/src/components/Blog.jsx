@@ -1,10 +1,13 @@
 import { useState } from 'react'
 import blogService from '../services/blogs'
 
-const Blog = ({ blog, token }) => 
+/*  Blog saa propsina myös listan blogeista ja sortBlogs-funktion. Niitä tarvitaan
+    jotta blogien järjestystä voidaan muuttaa, kun klikataan like-näppäintä.
+*/
+const Blog = ({ blog, token, sortBlogs, blogs }) => 
 {
-    const [inView, setInView] = useState(false);
-    const [currentBlog, setCurrentBlog] = useState(blog);
+    const [inView, setInView] = useState(false); // näkyvissä vai ei
+    const [currentBlog, setCurrentBlog] = useState(blog); // jotta liket päivittyisi, seurataan statea
     const blogStyle = 
     {
         paddingTop: 10,
@@ -14,13 +17,21 @@ const Blog = ({ blog, token }) =>
         marginBottom: 5
     }
 
-    const handleLikeButton = async(token, id) =>
+    const handleLikeButton = async () => 
     {
-        let curBlog = await blogService.getbyID(id);
-        curBlog.likes = curBlog.likes + 1;
-        const updatedBlog = await blogService.updateBlog(token, id, curBlog);
-        setCurrentBlog(updatedBlog);
-    }
+        const updatedBlog = { ...blog, likes: blog.likes + 1 };
+        try 
+        {
+            const resultBlog = await blogService.updateBlog(token, blog.id, updatedBlog);
+            setCurrentBlog(resultBlog); // päivittää liket 
+            const updatedBlogs = blogs.map(b => b.id === blog.id ? resultBlog : b);
+            sortBlogs(updatedBlogs); // päivittää järjestyksen 
+        } 
+        catch(error) 
+        {
+            console.error('Error updating blog:', error);
+        }
+    };
 
     return  (
                 <div>
@@ -30,7 +41,7 @@ const Blog = ({ blog, token }) =>
                                     <>
                                         <br/>
                                         {currentBlog.url}<br/>
-                                        likes {currentBlog.likes} <button onClick={() => handleLikeButton(token, currentBlog.id)}>Like</button><br/>
+                                        likes {currentBlog.likes} <button onClick={handleLikeButton}>Like</button><br/>
                                         {currentBlog.user && currentBlog.user.name}
                                     </>
                                 )}            
