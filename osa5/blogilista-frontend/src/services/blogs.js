@@ -7,6 +7,13 @@ const getAll = () =>
 	return request.then(response => response.data);
 };
 
+const getbyID = (id) =>
+{
+    const url = `${baseUrl}/${id}`;
+	const request = axios.get(url);
+	return request.then(response => response.data);
+};
+
 const postBlog = (token, content) =>
 {
 	const headers = { "Authorization": `Bearer ${token}`};
@@ -14,4 +21,12 @@ const postBlog = (token, content) =>
 	return request.then(response => response.data);   
 };
 
-export default { getAll, postBlog };
+const updateBlog = (token, id, content) =>
+{
+	const headers = { "Authorization": `Bearer ${token}`};
+    const url = `${baseUrl}/${id}`;
+	const request = axios.put(url, content, { headers });
+	return request.then(response => response.data);   
+}
+
+export default { getAll, getbyID, postBlog, updateBlog };

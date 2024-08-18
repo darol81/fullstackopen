@@ -1,5 +1,6 @@
 const blogsRouter = require("express").Router();
 
+const blog = require("../models/blog");
 /* Models */
 const Blog = require("../models/blog");
 const User = require("../models/user");
@@ -56,19 +57,25 @@ blogsRouter.put("/:id", async (request, response) =>
 {
 	const body = request.body;
 
+    /* Haetaan olemassaoleva blogi, mikäli sellainen id:llä löytyy */
+
+    const oldBlog = await Blog.findById(request.params.id);
+
 	const content =
     {
-    	title: body.title,
-    	author: body.author,
-    	url: body.url,
-    	likes: body.likes,
+    	title: body.title || oldBlog.title,
+    	author: body.author || oldBlog.author,
+    	url: body.url || oldBlog.url,
+    	likes: body.likes || oldBlog.likes,
+        user : oldBlog.user
     };
+    
 	const updatedBlog = await Blog.findByIdAndUpdate(request.params.id, content,
-		{
-			new: true,
-			runValidators: true,
-			context: "query"
-		});
+    {
+        new: true,
+        runValidators: true,
+        context: "query"
+    });
 	response.json(updatedBlog);
 });
 
