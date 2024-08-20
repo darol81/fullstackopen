@@ -54,7 +54,7 @@ const Blog = ({ blog, user, sortBlogs, blogs }) =>
 
     return (
         <div>
-            <div style={blogStyle}>
+            <div className="blog" style={blogStyle}>
                 {currentBlog.title} {currentBlog.author}<button onClick={() => setInView(!inView)}>{inView ? "Hide" : "View"}</button>
                 {inView && (
                     <>
