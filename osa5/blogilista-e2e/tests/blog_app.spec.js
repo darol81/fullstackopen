@@ -68,6 +68,14 @@ describe("Blog App", () =>
             await createBlog(page, "Test blog", "Teppo Testaaja", "http://www.teppo.com");
             await expect(page.getByText("Test blog Teppo Testaaja")).toBeVisible();
         });
+        test("a blog can be liked", async ({ page }) => 
+        {
+            await createBlog(page, "Test blog", "Teppo Testaaja", "http://www.teppo.com");
+            await page.getByRole("button", { name: "View" }).click();
+            await expect(page.getByText("likes 0")).toBeVisible();
+            await page.getByRole("button", { name: "Like" }).click();
+            await expect(page.getByText("likes 1")).toBeVisible();
+        });
     });
 });
 
