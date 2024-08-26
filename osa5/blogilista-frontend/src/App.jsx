@@ -51,15 +51,17 @@ const App = () =>
         }
     }, []);
 
-    const handleBlogSubmit = async(title, author, url) =>
+
+    const handleBlogSubmit = async (title, author, url) => 
     {
-        try
+        try 
         {
             const newBlog = await blogService.postBlog(user.token, { title, author, url });
+            newBlog.user = { username: user.username, name: user.name, id: user.id }; 
             sortBlogs([...blogs, newBlog]);
-            inform("Blog "+ newBlog.title +" by "+ newBlog.author +" added successfully.", "success");
-        }
-        catch(exception)
+            inform("Blog " + newBlog.title + " by " + newBlog.author + " added successfully.", "success");
+        } 
+        catch (exception) 
         {
             inform("Couldn't create blog.", "error");
         }

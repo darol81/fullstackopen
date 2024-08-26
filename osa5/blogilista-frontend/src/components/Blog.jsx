@@ -65,7 +65,7 @@ const Blog = ({ blog, user, sortBlogs, blogs }) =>
                                 {currentBlog.user.name}
                             </span>
                         )}
-                        {(user.username === currentBlog.user?.username) && (
+                        {(user.username === (currentBlog.user && currentBlog.user.username)) && (
                             <div>
                                 <button onClick={handleRemoveButton}>Remove</button>
                             </div>
