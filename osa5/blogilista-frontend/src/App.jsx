@@ -57,7 +57,7 @@ const App = () =>
         try 
         {
             const newBlog = await blogService.postBlog(user.token, { title, author, url });
-            newBlog.user = { username: user.username, name: user.name, id: user.id }; 
+            newBlog.user = { username: user.username, name: user.name, id: user.id }; // Lisätään user tiedot 
             sortBlogs([...blogs, newBlog]);
             inform("Blog " + newBlog.title + " by " + newBlog.author + " added successfully.", "success");
         } 
