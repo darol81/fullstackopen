@@ -96,10 +96,10 @@ const App = () =>
                         <Notification data={notification}></Notification>
                         <form onSubmit={handleLogin}>
                             <label htmlFor="username">Username:</label>
-                            <input type="text" id="username" name="username" onChange={({ target }) => setUsername(target.value)} required/><br/>
+                            <input type="text" id="username" name="username" data-testid="username" onChange={({ target }) => setUsername(target.value)} required/><br/>
 
                             <label htmlFor="password">Password:</label>
-                            <input type="password" id="password" name="password" onChange={({ target }) => setPassword(target.value)} required/><br/>
+                            <input type="password" id="password" name="password" data-testid="password" onChange={({ target }) => setPassword(target.value)} required/><br/>
 
                             <button type="submit">Login</button>
                         </form> 
