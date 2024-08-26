@@ -18,11 +18,21 @@ describe("Blog App", () =>
         await page.goto("/");
     })
 
+    /* Apufunktio Loginiin */
     const loginWith = async(page, username, password) =>
     {
         await page.getByTestId("username").fill(username);
         await page.getByTestId("password").fill(password);
         await page.getByRole("button", { name: "Login" }).click() 
+    }
+    /* Apufunktio Blogin luontiin */
+    const createBlog = async (page, title, author, url) => 
+    {  
+        await page.getByRole("button", { name: "New note" }).click();
+        await page.getByTestId("title").fill(title);
+        await page.getByTestId("author").fill(author);
+        await page.getByTestId("url").fill(url);
+        await page.getByRole("button", { name: "Create" }).click();
     }
 
     test("Login form is shown", async ({ page }) => 
@@ -46,7 +56,19 @@ describe("Blog App", () =>
             await expect(errorDiv).toHaveCSS("color", "rgb(255, 0, 0)");
         });
     });
+    describe('When logged in', () => 
+    {
+        beforeEach(async ({ page }) => 
+        {
+            await loginWith(page, "teppo", "salasana");
+        });
+
+        test("a new blog can be created", async ({ page }) => 
+        {
+            await createBlog(page, "Test blog", "Teppo Testaaja", "http://www.teppo.com");
+            await expect(page.getByText("Test blog Teppo Testaaja")).toBeVisible();
+        });
+    });
 });
 
 
-  

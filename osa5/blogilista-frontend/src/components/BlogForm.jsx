@@ -20,14 +20,14 @@ const BlogForm = ({ submitHandler }) =>
                     <h2>Create new</h2>
                         <form onSubmit={handler}>
                             <label htmlFor="title">Title:</label>
-                            <input type="text" id="title" name="title" onChange={(event) => setTitle(event.target.value)}/><br/>
+                            <input type="text" id="title" name="title" data-testid="title" onChange={(event) => setTitle(event.target.value)}/><br/>
                             <label htmlFor="author">Author:</label>
-                            <input type="text" id="author" name="author" onChange={(event) => setAuthor(event.target.value)} /><br/>
+                            <input type="text" id="author" name="author" data-testid="author" onChange={(event) => setAuthor(event.target.value)} /><br/>
                             <label htmlFor="url">Url:</label>
-                            <input type="url" id="url" name="url" onChange={(event) => setUrl(event.target.value)} /><br/>
+                            <input type="url" id="url" name="url" data-testid="url" onChange={(event) => setUrl(event.target.value)} /><br/>
                             <button type="submit">Create</button>
                         </form>            
-                </>
+                </> 
             );
 }
 
