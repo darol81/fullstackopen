@@ -15,6 +15,15 @@ describe("Blog App", () =>
                 password: "salasana"
             }
         });
+        await request.post("/api/users",
+        {
+            data: 
+            {
+                name: "Kaapo Kakkostestaaja", 
+                username: "kaapo",
+                password: "salasana"
+            }
+        });
         await page.goto("/");
     })
 
@@ -75,6 +84,28 @@ describe("Blog App", () =>
             await expect(page.getByText("likes 0")).toBeVisible();
             await page.getByRole("button", { name: "Like" }).click();
             await expect(page.getByText("likes 1")).toBeVisible();
+        });
+        test("a blog can be deleted", async ({ page }) => 
+        {
+            page.on("dialog", async (dialog) => 
+            {
+                expect(dialog.message()).toEqual("Are you sure you want to delete Test blog by Teppo Testaaja?");
+                await dialog.accept();
+            });
+            await createBlog(page, "Test blog", "Teppo Testaaja", "http://www.teppo.com");
+            await page.getByRole("button", { name: "View" }).click();
+            await page.getByRole("button", { name: "Remove" }).click();
+            expect(page.getByRole("button", { name: "View" })).toHaveCount(0);
+        });
+        test("Remove-button is visible only to blog poster", async ({ page }) =>
+        {
+            await createBlog(page, "Test blog", "Teppo Testaaja", "http://www.teppo.com");
+            await page.getByRole("button", { name: "View" }).click();
+            expect(page.getByRole("button", { name: "Remove" })).toBeVisible();
+            await page.getByRole("button", { name: "Logout" }).click();
+            await loginWith(page, "kaapo", "salasana");
+            await page.getByRole("button", { name: "View" }).click();
+            expect(page.getByRole("button", { name: "Remove" })).toHaveCount(0);
         });
     });
 });
