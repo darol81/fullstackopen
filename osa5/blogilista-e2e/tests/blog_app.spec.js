@@ -37,11 +37,12 @@ describe("Blog App", () =>
     /* Apufunktio Blogin luontiin */
     const createBlog = async (page, title, author, url) => 
     {  
-        await page.getByRole("button", { name: "New note" }).click();
+        await page.getByRole("button", { name: "New blog" }).click();
         await page.getByTestId("title").fill(title);
         await page.getByTestId("author").fill(author);
         await page.getByTestId("url").fill(url);
         await page.getByRole("button", { name: "Create" }).click();
+        await page.getByRole("button", { name: "Hide" }).click();
     }
 
     test("Login form is shown", async ({ page }) => 
@@ -107,7 +108,18 @@ describe("Blog App", () =>
             await page.getByRole("button", { name: "View" }).click();
             expect(page.getByRole("button", { name: "Remove" })).toHaveCount(0);
         });
+        test("blogs are shown in the order of likes", async ({ page }) => 
+        {
+            await createBlog(page, "First blog", "Teppo Testaaja", "http://www.teppo.com");
+            await createBlog(page, "Second blog", "Kaapo Kakkostestaaja", "http://www.kaapo.com");
+
+            await page.getByRole("button", { name: "View" }).nth(1).click(); // Toinen blogi
+            await page.getByRole("button", { name: "Like" }).click(); // (Ainoa Like näkyvissä tällä hetkellä)
+            await page.waitForSelector('[data-testid="likes"]:has-text("likes 1")'); // odotetaan, kunnes ruutu päivittyy likes 1
+            const blogs = page.locator('[data-testid="blog"]');
+            /* Tarkistetaan, että järjestys on kääntynyt. Second blog pitäisi olla ensin listassa, koska sille on annettu tykkäys. */
+            expect(await blogs.nth(0).innerText()).toContain("Second blog");
+            expect(await blogs.nth(1).innerText()).toContain("First blog"); 
+        });     
     });
 });
-
-

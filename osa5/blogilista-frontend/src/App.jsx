@@ -119,7 +119,7 @@ const App = () =>
                     )}
                     <br></br>
                     
-                    <Togglable buttonLabel="New note">
+                    <Togglable buttonLabel="New blog">
                         <BlogForm submitHandler={handleBlogSubmit}/>
                     </Togglable>
                 </div>

@@ -53,13 +53,13 @@ const Blog = ({ blog, user, sortBlogs, blogs }) =>
     };
 
     return (
-        <div>
+        <div data-testid="blog">
             <div className="blog" style={blogStyle}>
                 {currentBlog.title} {currentBlog.author}<button onClick={() => setInView(!inView)}>{inView ? "Hide" : "View"}</button>
                 {inView && (
                     <>
                         <br/>{currentBlog.url}<br />
-                        likes {currentBlog.likes} <button onClick={handleLikeButton}>Like</button><br/>
+                        <span data-testid="likes">likes {currentBlog.likes}</span><button onClick={handleLikeButton}>Like</button><br/>
                         {currentBlog.user && (
                             <span>
                                 {currentBlog.user.name}
