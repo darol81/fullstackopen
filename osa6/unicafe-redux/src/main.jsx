@@ -8,23 +8,23 @@ const store = createStore(reducer);
 
 const App = () => 
 {
-    const good = () => 
+    const action_button = (msg) => 
     {
         store.dispatch
         ({
-            type: 'GOOD'
+            type: msg
         });
     }
 
     return  (
                 <div>
-                    <button onClick={good}>good</button> 
-                    <button>ok</button> 
-                    <button>bad</button>
-                    <button>reset stats</button>
+                    <button onClick={() => action_button("GOOD")}>good</button> 
+                    <button onClick={() => action_button("OK")}>ok</button> 
+                    <button onClick={() => action_button("BAD")}>bad</button>
+                    <button onClick={() => action_button("ZERO")}>reset stats</button>
                     <div>good {store.getState().good}</div>
-                    <div>ok</div>
-                    <div>bad</div>
+                    <div>ok {store.getState().ok}</div>
+                    <div>bad {store.getState().bad}</div>                
                 </div>
             )
 }
