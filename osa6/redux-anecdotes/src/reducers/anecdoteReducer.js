@@ -30,6 +30,8 @@ const reducer = (state = initialState, action) =>
             const targetAnecdote = state.find(anecdote => anecdote.id === id);
             const updatedAnecdote = {...targetAnecdote, votes: targetAnecdote.votes + 1 };
             return state.map(anecdote => anecdote.id !== id ? anecdote : updatedAnecdote);
+        case "ADD_NEW":
+            return [...state, action.payload];
         default: return state; 
     }
 }
@@ -41,5 +43,19 @@ export const voteAction = (id) =>
                 payload: { id }
             };
 };
+
+export const addAnecdoteAction = (anecdote) => 
+{
+    return  {
+                type: "ADD_NEW",
+                payload: 
+                { 
+                    id: getId(),
+                    content: anecdote,
+                    votes: 0,
+                } 
+            };
+};
+
 
 export default reducer
