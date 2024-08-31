@@ -41,10 +41,16 @@ const anecdoteSlice = createSlice
         {
             //console.log(action.payload);
             //console.log(JSON.parse(JSON.stringify(state)));
-            return [...state, { id: getId(), content: action.payload, votes: 0 }];
+            //return [...state, { id: getId(), content: action.payload, votes: 0 }];
+            return [...state, action.payload];
         },
+        setAnecdotes(state, action)
+        {
+            return action.payload;
+        }
+
     },
 });
 
-export const { voteAction, addAnecdoteAction } = anecdoteSlice.actions
+export const { voteAction, addAnecdoteAction, setAnecdotes } = anecdoteSlice.actions
 export default anecdoteSlice.reducer
