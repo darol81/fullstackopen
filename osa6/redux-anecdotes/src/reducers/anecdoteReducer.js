@@ -1,6 +1,7 @@
 
 import { createSlice } from '@reduxjs/toolkit'
 import anecdoteService from '../services/anecdoteService';
+import { inform } from '../reducers/notificationReducer'
 
 /*
 const anecdotesAtStart = 
@@ -63,6 +64,16 @@ export const initializeAnecdotes = () =>
     {    
         const anecdotes = await anecdoteService.getAll();
         dispatch(setAnecdotes(anecdotes));
+    }
+}
+
+export const createAnecdote = content => 
+{ 
+    return async dispatch => 
+    {    
+        const newAnecdote = await anecdoteService.createNew(content);
+        inform(dispatch, `You created note '${content}'`);
+        dispatch(addAnecdoteAction(newAnecdote)); 
     }
 }
 
