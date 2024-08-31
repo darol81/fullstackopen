@@ -15,20 +15,24 @@ const notificationSlice = createSlice
 
 let timeoutId = null;
 
-export const inform = (dispatch, msg) =>
+export const setNotification = (msg, seconds) =>
 {
-    const { notificationChange } = notificationSlice.actions;   
-    dispatch(notificationChange(msg));
-    if(timeoutId)
+    return async dispatch =>
     {
-        clearTimeout(timeoutId);
+        if(timeoutId)
+        {
+            clearTimeout(timeoutId);
+        }
+        const { notificationChange } = notificationSlice.actions;   
+        dispatch(notificationChange(msg));
+        timeoutId = setTimeout(() => 
+        { 
+            dispatch(notificationChange(null));
+            timeoutId = null;
+        }, (seconds * 1000));
     }
-    timeoutId = setTimeout(() => 
-    { 
-        dispatch(notificationChange(null));
-        timeoutId = null;
-    }, 5000);
 }
+
 
 export const { notificationChange } = notificationSlice.actions;
 export default notificationSlice.reducer;
