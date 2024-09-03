@@ -10,13 +10,24 @@ export const getAnecdotes = () =>
     });
 }
 
-export const createAnecdote = (newAnecdote) =>
+export const createAnecdote = async (newAnecdote) => 
 {
-    return axios.post(baseUrl, newAnecdote).then(res => res.data).catch(error =>
+    try 
     {
-        throw new Error("createAnecdote fails.");
-    });
-}
+        const response = await axios.post(baseUrl, newAnecdote);
+        return response.data;
+    } 
+    catch(error) 
+    {
+        /* Käsitellään virhe täällä, tai oikeammin muodostetaan sen pohjalta oma virhe, joka heitetään */
+        const myError = 
+        { 
+            msg: error.response.data.error,
+            status: error.response.status 
+        };
+        throw myError;
+    }
+};
 
 export const voteAnecdote = (anecdote) =>
 {

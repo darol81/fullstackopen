@@ -14,6 +14,10 @@ const AnecdoteForm = () =>
         {      
             queryClient.invalidateQueries({ queryKey: ["anecdotes"] })    
         },
+        onError: (error) =>
+        {   
+            notify(error.msg);
+        },
     });
     
     const onCreate = (event) => 
@@ -22,8 +26,8 @@ const AnecdoteForm = () =>
         const content = event.target.anecdote.value;
         event.target.anecdote.value = "";
         console.log("new anecdote");
-        notify(`anecdote '${content}' created`);
         anecdoteMutation.mutate({ content, votes: 0 })
+        notify(`anecdote '${content}' created`);
     }
 
     return  (
