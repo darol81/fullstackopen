@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { useNavigate, useMatch, Route, Routes, BrowserRouter as Router, Link } from 'react-router-dom';
+import  { useField } from './hooks'
 
 const Menu = () => 
 {
@@ -50,35 +51,43 @@ const Footer = () => (
 
 const CreateNew = ({ addNew }) => 
 {
-    const [content, setContent] = useState('');
-    const [author, setAuthor] = useState('');
-    const [info, setInfo] = useState('');
+    const content = useField('text');
+    const author = useField('text');
+    const info = useField('text');
 	const navigate = useNavigate();
     const handleSubmit = (e) => 
-	{
-	
+    {
         e.preventDefault();
-        addNew({ content, author, info, votes: 0 });
-		navigate('/')
+        addNew({ content: content.value, author: author.value, info: info.value, votes: 0 });
+        navigate('/');
     };
-
+    const resetAction = (e) =>
+    {
+        e.preventDefault();
+        content.reset();
+        author.reset();
+        info.reset();
+    }
+    const showField = ({ reset, ...field }) => field;
+ 
     return (
         <div>
             <h2>Create a new anecdote</h2>
             <form onSubmit={handleSubmit}>
                 <div>
                     content
-                    <input name="content" value={content} onChange={(e) => setContent(e.target.value)} />
+                    <input name="content" {...showField(content)} />
                 </div>
                 <div>
                     author
-                    <input name="author" value={author} onChange={(e) => setAuthor(e.target.value)} />
+                    <input name="author" {...showField(author)} />
                 </div>
                 <div>
                     url for more info
-                    <input name="info" value={info} onChange={(e) => setInfo(e.target.value)} />
+                    <input name="info" {...showField(info)} />
                 </div>
                 <button>create</button>
+                <button onClick={resetAction}>reset</button>
             </form>
         </div>
     );
@@ -93,7 +102,6 @@ const Notification = ({ message }) =>
 		</div>
 	);
 }
-
 
 const App = () => 
 {
