@@ -6,15 +6,16 @@ import BlogForm from './components/BlogForm';
 import blogService from './services/blogs'
 import loginService from './services/login';
 import { setNotification } from './reducers/notificationReducer';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { initializeBlogs } from './reducers/blogReducer';
 
 const App = () => 
 {
-    const [blogs, setBlogs] = useState([]);
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
     const [user, setUser] = useState(null);
     const dispatch = useDispatch();
+    const blogs = useSelector(state => state.blog);
 
     /* Type voi olla error tai success. Jos on jotain muuta, ei CSS tunnista */
     const inform = (msg, type) =>
@@ -22,20 +23,13 @@ const App = () =>
         dispatch(setNotification(msg, type, 5)); // Redux
     };
 
-
-    /* Järjestetään suurimmasta pienimpään, ja merkataan blogs stateen */
-    const sortBlogs = (list) => 
-    {
-        const sortedBlogs = [...list].sort((a, b) => b.likes - a.likes);
-        setBlogs(sortedBlogs);
-    };
-
     useEffect(() => 
     {   
         const fetchBlogs = async () => 
         {
             const tmp = await blogService.getAll();
-            sortBlogs(tmp); // Järjestetään blogit oikeaan järjestykseen heti aluksi
+            
+            dispatch(initializeBlogs()); // Redux
         };
         fetchBlogs();
     }, []);
@@ -114,7 +108,7 @@ const App = () =>
                     <Notification/>
                     <h2>Blogs</h2>
                     {blogs.map(blog => 
-                        <Blog key={blog.id} blog={blog} user={user} sortBlogs={sortBlogs} blogs={blogs}/>
+                        <Blog key={blog.id} blog={blog} user={user}/>
                     )}
                     <br></br>
                     

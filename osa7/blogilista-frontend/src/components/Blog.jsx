@@ -1,14 +1,18 @@
 import { useState } from 'react'
 import blogService from '../services/blogs'
 import PropTypes from 'prop-types'
+import { useDispatch, useSelector } from 'react-redux';
 
 /*  Blog saa propsina myös listan blogeista ja sortBlogs-funktion. Niitä tarvitaan
     jotta blogien järjestystä voidaan muuttaa, kun klikataan like-näppäintä.
 */
-const Blog = ({ blog, user, sortBlogs, blogs }) => 
+const Blog = ({ blog, user }) => 
 {
     const [inView, setInView] = useState(false); // näkyvissä vai ei
     const [currentBlog, setCurrentBlog] = useState(blog); // jotta liket päivittyisi, seurataan statea
+    const dispatch = useDispatch();
+    const blogs = useSelector(state => state.blogs);
+  
     const blogStyle = 
     {
         paddingTop: 10,
@@ -26,7 +30,7 @@ const Blog = ({ blog, user, sortBlogs, blogs }) =>
             const resultBlog = await blogService.updateBlog(user.token, blog.id, updatedBlog);
             setCurrentBlog(resultBlog); // päivittää liket 
             const updatedBlogs = blogs.map(b => b.id === blog.id ? resultBlog : b);
-            sortBlogs(updatedBlogs); // päivittää järjestyksen 
+            dispatch(setBlogs(updatedBlogs)); // Redux
         } 
         catch(error) 
         {
@@ -43,7 +47,7 @@ const Blog = ({ blog, user, sortBlogs, blogs }) =>
                 await blogService.deleteBlog(user.token, blog.id);
                 setCurrentBlog(null);
                 const updatedBlogs = blogs.filter(b => b.id !== blog.id);
-                sortBlogs(updatedBlogs);
+                dispatch(setBlogs(updatedBlogs)); // Redux
             }
         }
         catch(error)
@@ -81,8 +85,6 @@ Blog.propTypes =
 {
     blog: PropTypes.object.isRequired,
     user: PropTypes.object.isRequired,
-    sortBlogs: PropTypes.func.isRequired,
-    blogs: PropTypes.array.isRequired,
 }
 
 export default Blog;
