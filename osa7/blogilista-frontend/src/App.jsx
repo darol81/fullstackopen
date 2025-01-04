@@ -5,6 +5,8 @@ import Togglable from './components/Togglable';
 import BlogForm from './components/BlogForm';
 import blogService from './services/blogs'
 import loginService from './services/login';
+import { setNotification } from './reducers/notificationReducer';
+import { useDispatch } from 'react-redux';
 
 const App = () => 
 {
@@ -12,17 +14,14 @@ const App = () =>
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
     const [user, setUser] = useState(null);
-    const [notification, setNotification] = useState(null);
+    const dispatch = useDispatch();
 
     /* Type voi olla error tai success. Jos on jotain muuta, ei CSS tunnista */
     const inform = (msg, type) =>
     {
-        setNotification({ message: msg, type: type });
-        setTimeout(() => 
-        {          
-            setNotification(null);
-        }, 5000);
-    }
+        dispatch(setNotification(msg, type, 5)); // Redux
+    };
+
 
     /* Järjestetään suurimmasta pienimpään, ja merkataan blogs stateen */
     const sortBlogs = (list) => 
@@ -95,7 +94,7 @@ const App = () =>
         return  (
                     <div>
                         <h2>Log in to application</h2>
-                        <Notification data={notification}></Notification>
+                        <Notification/>
                         <form onSubmit={handleLogin}>
                             <label htmlFor="username">Username:</label>
                             <input type="text" id="username" name="username" data-testid="username" onChange={({ target }) => setUsername(target.value)} required/><br/>
@@ -112,7 +111,7 @@ const App = () =>
     return  (   
                 <div>
                     {user.name} logged in <button type="button" onClick={handleLogout}>Logout</button>
-                    <Notification data={notification}></Notification>
+                    <Notification/>
                     <h2>Blogs</h2>
                     {blogs.map(blog => 
                         <Blog key={blog.id} blog={blog} user={user} sortBlogs={sortBlogs} blogs={blogs}/>
