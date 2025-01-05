@@ -68,5 +68,21 @@ export const deleteBlog = (user, id) =>
     }
 };
 
+export const likeBlog = (user, blog) =>
+{
+    return async dispatch =>
+    {
+        const updatedBlog = { ...blog, likes: blog.likes + 1 };
+        try 
+        {
+            await blogService.updateBlog(user.token, blog.id, updatedBlog);
+            dispatch(initializeBlogs());
+        } 
+        catch(error) 
+        {
+            dispatch(setNotification("Error updating blog.", "error", 5));
+        }
+    };
+}
 export default blogSlice.reducer;
 
