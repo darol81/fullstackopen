@@ -7,17 +7,19 @@ import loginService from './services/login';
 import { setNotification } from './reducers/notificationReducer';
 import { initializeBlogs } from './reducers/blogReducer';
 import { useDispatch, useSelector } from 'react-redux';
+import { setUser } from './reducers/authenticationReducer';
 
 
 const App = () => 
 {
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
-    const [user, setUser] = useState(null);
     const dispatch = useDispatch();
     const blogs = useSelector(state => state.blog);
+    const user = useSelector(state => state.authentication);
 
     /* Type voi olla error tai success. Jos on jotain muuta, ei CSS tunnista */
+    
     const inform = (msg, type) =>
     {
         dispatch(setNotification(msg, type, 5)); // Redux
@@ -37,7 +39,7 @@ const App = () =>
         if(LoggedInUser)
         {
             const userJSON = JSON.parse(LoggedInUser);
-            setUser(userJSON);
+            dispatch(setUser(userJSON)); // Redux
         }
     }, []);
 
@@ -45,7 +47,7 @@ const App = () =>
     {
         event.preventDefault();
         window.localStorage.removeItem("currentLogin");
-        setUser(null);
+        dispatch(setUser(null)); // Redux
     }
     const handleLogin = async(event) => 
     {    
@@ -54,7 +56,7 @@ const App = () =>
         {      
             const user = await loginService.login({ username, password, }); 
             window.localStorage.setItem("currentLogin", JSON.stringify(user));
-            setUser(user);
+            dispatch(setUser(user)); // Redux
             setUsername("");
             setPassword("");    
         } 

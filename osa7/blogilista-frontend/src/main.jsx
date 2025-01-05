@@ -7,13 +7,15 @@ import { configureStore } from '@reduxjs/toolkit'
 import { Provider } from 'react-redux'
 import notificationReducer from './reducers/notificationReducer';
 import blogReducer from './reducers/blogReducer';
+import authenticationReducer from './reducers/authenticationReducer';
 
 const store = configureStore
 ({
     reducer: 
     {
         blog: blogReducer,  
-        notification: notificationReducer
+        notification: notificationReducer,
+        authentication: authenticationReducer
     }
 });
 
