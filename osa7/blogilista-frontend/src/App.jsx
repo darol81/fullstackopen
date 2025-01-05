@@ -3,14 +3,10 @@ import Blog from './components/Blog'
 import Notification from './components/Notification';
 import Togglable from './components/Togglable';
 import BlogForm from './components/BlogForm';
-import blogService from './services/blogs'
 import loginService from './services/login';
 import { setNotification } from './reducers/notificationReducer';
-import { useDispatch, useSelector } from 'react-redux';
 import { initializeBlogs } from './reducers/blogReducer';
-
-
-/* Type voi olla error tai success. Jos on jotain muuta, ei CSS tunnista */
+import { useDispatch, useSelector } from 'react-redux';
 
 
 const App = () => 
@@ -21,6 +17,7 @@ const App = () =>
     const dispatch = useDispatch();
     const blogs = useSelector(state => state.blog);
 
+    /* Type voi olla error tai success. Jos on jotain muuta, ei CSS tunnista */
     const inform = (msg, type) =>
     {
         dispatch(setNotification(msg, type, 5)); // Redux
@@ -43,7 +40,6 @@ const App = () =>
             setUser(userJSON);
         }
     }, []);
-
 
     const handleLogout = async(event) =>
     {
