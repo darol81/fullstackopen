@@ -2,7 +2,7 @@ import { useState } from 'react'
 import blogService from '../services/blogs'
 import PropTypes from 'prop-types'
 import { useDispatch, useSelector } from 'react-redux';
-
+import { deleteBlog } from '../reducers/blogReducer';
 /*  Blog saa propsina myös listan blogeista ja sortBlogs-funktion. Niitä tarvitaan
     jotta blogien järjestystä voidaan muuttaa, kun klikataan like-näppäintä.
 */
@@ -40,20 +40,10 @@ const Blog = ({ blog, user }) =>
 
     const handleRemoveButton = async() =>
     {
-        try
+        if(confirm("Are you sure you want to delete "+ blog.title +" by "+ blog.author +"?") == true)
         {
-            if(confirm("Are you sure you want to delete "+ blog.title +" by "+ blog.author +"?") == true)
-            {
-                await blogService.deleteBlog(user.token, blog.id);
-                setCurrentBlog(null);
-                const updatedBlogs = blogs.filter(b => b.id !== blog.id);
-                dispatch(setBlogs(updatedBlogs)); // Redux
-            }
-        }
-        catch(error)
-        {
-            console.log("Error deleting blog.");
-        }
+            dispatch(deleteBlog(user, blog.id));
+        }     
     };
 
     return (

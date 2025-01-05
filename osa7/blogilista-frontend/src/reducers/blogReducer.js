@@ -15,7 +15,7 @@ const blogSlice = createSlice
        },
        addBlog(state, action)
        {
-           return [...state, action.payload];
+           return [...state, action.payload].sort((a, b) => b.likes - a.likes);
        }   
     }
 });
@@ -39,16 +39,31 @@ export const createBlog = (user, title, author, url) =>
     {
         try 
         {
-            const blogs = await blogService.getAll();
             const newBlog = await blogService.postBlog(user.token, { title, author, url });
             newBlog.user = { username: user.username, name: user.name, id: user.id }; // Lisätään user tiedot 
             dispatch(addBlog(newBlog));
-            dispatch(setBlogs([...blogs, newBlog]));
             dispatch(setNotification(`Blog "${newBlog.title}" by ${newBlog.author} added successfully.`, "success", 5));
         } 
         catch (exception) 
         {
             dispatch(setNotification("Couldn't create blog.", "error", 5));
+        }
+    }
+};
+
+export const deleteBlog = (user, id) =>
+{
+    return async dispatch =>
+    {
+        try
+        {
+            await blogService.deleteBlog(user.token, id);
+            dispatch(setNotification("Blog deleted successfully.", "success", 5));
+            dispatch(initializeBlogs());
+        }
+        catch(exception)
+        {
+            dispatch(setNotification("Couldn't delete blog.", "error", 5));
         }
     }
 };
