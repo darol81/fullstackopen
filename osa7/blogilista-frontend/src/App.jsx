@@ -9,6 +9,10 @@ import { setNotification } from './reducers/notificationReducer';
 import { useDispatch, useSelector } from 'react-redux';
 import { initializeBlogs } from './reducers/blogReducer';
 
+
+/* Type voi olla error tai success. Jos on jotain muuta, ei CSS tunnista */
+
+
 const App = () => 
 {
     const [username, setUsername] = useState("");
@@ -17,18 +21,14 @@ const App = () =>
     const dispatch = useDispatch();
     const blogs = useSelector(state => state.blog);
 
-    /* Type voi olla error tai success. Jos on jotain muuta, ei CSS tunnista */
     const inform = (msg, type) =>
     {
         dispatch(setNotification(msg, type, 5)); // Redux
     };
-
     useEffect(() => 
     {   
         const fetchBlogs = async () => 
         {
-            const tmp = await blogService.getAll();
-            
             dispatch(initializeBlogs()); // Redux
         };
         fetchBlogs();
@@ -44,21 +44,6 @@ const App = () =>
         }
     }, []);
 
-
-    const handleBlogSubmit = async (title, author, url) => 
-    {
-        try 
-        {
-            const newBlog = await blogService.postBlog(user.token, { title, author, url });
-            newBlog.user = { username: user.username, name: user.name, id: user.id }; // Lisätään user tiedot 
-            sortBlogs([...blogs, newBlog]);
-            inform("Blog " + newBlog.title + " by " + newBlog.author + " added successfully.", "success");
-        } 
-        catch (exception) 
-        {
-            inform("Couldn't create blog.", "error");
-        }
-    }
 
     const handleLogout = async(event) =>
     {
@@ -113,7 +98,7 @@ const App = () =>
                     <br></br>
                     
                     <Togglable buttonLabel="New blog">
-                        <BlogForm submitHandler={handleBlogSubmit}/>
+                        <BlogForm user={user}/>
                     </Togglable>
                 </div>
 

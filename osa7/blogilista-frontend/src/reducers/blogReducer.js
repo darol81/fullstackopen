@@ -1,5 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit'
 import blogService from '../services/blogs'
+import { useDispatch } from 'react-redux';
+import { setNotification } from './notificationReducer';
 
 const blogSlice = createSlice
 ({
@@ -18,6 +20,7 @@ const blogSlice = createSlice
     }
 });
 
+
 export const { setBlogs, addBlog } = blogSlice.actions;
 
 export const initializeBlogs = () => 
@@ -29,13 +32,25 @@ export const initializeBlogs = () =>
     };
 };
 
-export const createBlog = (blog, token) => 
+
+export const createBlog = (user, title, author, url) =>   
 {
-    return async dispatch => 
+    return async (dispatch)=> 
     {
-        const newBlog = await blogService.postBlog(token, blog);
-        dispatch(addBlog(newBlog));
-    };
+        try 
+        {
+            const blogs = await blogService.getAll();
+            const newBlog = await blogService.postBlog(user.token, { title, author, url });
+            newBlog.user = { username: user.username, name: user.name, id: user.id }; // Lisätään user tiedot 
+            dispatch(addBlog(newBlog));
+            dispatch(setBlogs([...blogs, newBlog]));
+            dispatch(setNotification(`Blog "${newBlog.title}" by ${newBlog.author} added successfully.`, "success", 5));
+        } 
+        catch (exception) 
+        {
+            dispatch(setNotification("Couldn't create blog.", "error", 5));
+        }
+    }
 };
 
 export default blogSlice.reducer;
