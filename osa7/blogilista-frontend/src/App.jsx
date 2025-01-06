@@ -11,6 +11,7 @@ import { useState, useEffect } from 'react';
 /* Views */
 import Blogs from './views/Blogs';
 import Users from './views/Users'; 
+import User from './views/User';
 
 /* CSS */
 import './App.css';
@@ -92,7 +93,7 @@ const App = () =>
                 </nav>
                 <Routes>
                     <Route path="/users" element={<Users />} />
-                    <Route path="/users/:id" element={<Users />} /> 
+                    <Route path="/users/:userid" element={<User />} /> 
                     <Route path="/blogs" element={<Blogs />} />
                     <Route path="/" element={<Blogs />} />
                 </Routes>
