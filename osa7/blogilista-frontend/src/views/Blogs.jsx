@@ -1,9 +1,9 @@
 import { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { initializeBlogs } from "../reducers/blogReducer";
-import Blog from '../components/Blog';
 import Togglable from '../components/Togglable';
 import BlogForm from '../components/BlogForm';
+import BlogItem from '../components/BlogItem';
 
 const Blogs = () =>
 {
@@ -24,7 +24,7 @@ const Blogs = () =>
         <div>
             <h2>Blogs</h2>
             {blogs.map(blog => 
-                <Blog key={blog.id} blog={blog} user={user} />
+                <BlogItem key={blog.id} blog={blog} user={user} />
             )}
             <br/>
             <Togglable buttonLabel="New blog">

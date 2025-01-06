@@ -1,11 +1,11 @@
 import { useState } from 'react'
 import PropTypes from 'prop-types'
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { deleteBlog, likeBlog } from '../reducers/blogReducer';
 /*  Blog saa propsina myös listan blogeista ja sortBlogs-funktion. Niitä tarvitaan
     jotta blogien järjestystä voidaan muuttaa, kun klikataan like-näppäintä.
 */
-const Blog = ({ blog, user }) => 
+const BlogItem = ({ blog, user }) => 
 {
     const [inView, setInView] = useState(false); // näkyvissä vai ei
     const dispatch = useDispatch();
@@ -57,10 +57,10 @@ const Blog = ({ blog, user }) =>
     );
 }
 
-Blog.propTypes = 
+BlogItem.propTypes = 
 {
     blog: PropTypes.object.isRequired,
     user: PropTypes.object.isRequired,
 }
 
-export default Blog;
+export default BlogItem
