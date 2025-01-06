@@ -92,6 +92,7 @@ const App = () =>
                 </nav>
                 <Routes>
                     <Route path="/users" element={<Users />} />
+                    <Route path="/users/:id" element={<Users />} /> 
                     <Route path="/blogs" element={<Blogs />} />
                     <Route path="/" element={<Blogs />} />
                 </Routes>
