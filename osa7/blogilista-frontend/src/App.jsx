@@ -4,7 +4,6 @@ import Notification from './components/Notification';
 
 import loginService from './services/login';
 import { setNotification } from './reducers/notificationReducer';
-import { initializeBlogs } from './reducers/blogReducer';
 import { useDispatch, useSelector } from 'react-redux';
 import { setUser } from './reducers/authenticationReducer';
 import { useState, useEffect } from 'react';
@@ -21,22 +20,13 @@ const App = () =>
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
     const dispatch = useDispatch();
-    const blogs = useSelector(state => state.blog);
+
     const user = useSelector(state => state.authentication);
 
     const inform = (msg, type) => 
     {
         dispatch(setNotification(msg, type, 5)); // Redux
     };
-
-    useEffect(() => 
-    {   
-        const fetchBlogs = async () => 
-        {
-            dispatch(initializeBlogs()); // Redux
-        };
-        fetchBlogs();
-    }, []);
 
     useEffect(() => 
     {
@@ -102,8 +92,8 @@ const App = () =>
                 </nav>
                 <Routes>
                     <Route path="/users" element={<Users />} />
-                    <Route path="/blogs" element={<Blogs blogs={blogs} user={user} />} />
-                    <Route path="/" element={<Blogs blogs={blogs} user={user} />} />
+                    <Route path="/blogs" element={<Blogs />} />
+                    <Route path="/" element={<Blogs />} />
                 </Routes>
             </div>
         </Router>
