@@ -12,6 +12,7 @@ import { useState, useEffect } from 'react';
 import Blogs from './views/Blogs';
 import Users from './views/Users'; 
 import User from './views/User';
+import Blog from './views/Blog';
 
 /* CSS */
 import './App.css';
@@ -95,6 +96,7 @@ const App = () =>
                     <Route path="/users" element={<Users />} />
                     <Route path="/users/:userid" element={<User />} /> 
                     <Route path="/blogs" element={<Blogs />} />
+                    <Route path="/blogs/:blogid" element={<Blog />} />
                     <Route path="/" element={<Blogs />} />
                 </Routes>
             </div>

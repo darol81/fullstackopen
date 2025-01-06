@@ -24,7 +24,7 @@ const Blogs = () =>
         <div>
             <h2>Blogs</h2>
             {blogs.map(blog => 
-                <BlogItem key={blog.id} blog={blog} user={user} />
+                <BlogItem key={blog.id} blog={blog} />
             )}
             <br/>
             <Togglable buttonLabel="New blog">
