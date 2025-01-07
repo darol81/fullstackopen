@@ -15,7 +15,8 @@ import User from './views/User';
 import Blog from './views/Blog';
 
 /* CSS */
-import './App.css';
+
+import { AppContainer, Nav, Button, Input, LoginForm, Text, Heading } from './components/styles/styledComponents';
 
 const App = () => 
 {
@@ -67,39 +68,41 @@ const App = () =>
     if(user === null) 
     {
         return (
-            <div>
-                <h2>Log in to application</h2>
-                <Notification/>
-                <form onSubmit={handleLogin}>
-                    <label htmlFor="username">Username:</label>
-                    <input type="text" id="username" name="username" data-testid="username" onChange={({ target }) => setUsername(target.value)} required/><br/>
-
-                    <label htmlFor="password">Password:</label>
-                    <input type="password" id="password" name="password" data-testid="password" onChange={({ target }) => setPassword(target.value)} required/><br/>
-
-                    <button type="submit">Login</button>
-                </form> 
-            </div>
+                <AppContainer>
+                    <div>
+                            <Heading>Login</Heading> 
+                            <Notification/>
+                            <LoginForm onSubmit={handleLogin}>
+                                <label htmlFor="username">Username</label>
+                                <Input type="text" id="username" value={username} onChange={(e) => setUsername(e.target.value)} />
+                                <label htmlFor="password">Password</label>
+                                <Input type="password" id="password" value={password} onChange={(e) => setPassword(e.target.value)} />
+                                <Button type="submit">Login</Button>
+                            </LoginForm>
+                        </div>
+                </AppContainer>
         );
     }
 
     return (
         <Router>
-            <div>
-                {user.name} logged in <button type="button" onClick={handleLogout}>Logout</button>
-                <Notification/>
-                <nav>
-                    <Link className="nav-link" to="/blogs">Blogs</Link>
-                    <Link className="nav-link" to="/users">Users</Link>
-                </nav>
-                <Routes>
-                    <Route path="/users" element={<Users />} />
-                    <Route path="/users/:userid" element={<User />} /> 
-                    <Route path="/blogs" element={<Blogs />} />
-                    <Route path="/blogs/:blogid" element={<Blog />} />
-                    <Route path="/" element={<Blogs />} />
-                </Routes>
-            </div>
+            <AppContainer>
+                <div>
+                    <Text>{user.name} logged in <Button type="button" onClick={handleLogout}>Logout</Button></Text>
+                    <Notification/>
+                    <Nav>
+                        <Link className="nav-link" to="/blogs">Blogs</Link>
+                        <Link className="nav-link" to="/users">Users</Link>
+                    </Nav>
+                    <Routes>
+                        <Route path="/users" element={<Users />} />
+                        <Route path="/users/:userid" element={<User />} /> 
+                        <Route path="/blogs" element={<Blogs />} />
+                        <Route path="/blogs/:blogid" element={<Blog />} />
+                        <Route path="/" element={<Blogs />} />
+                    </Routes>
+                </div>
+            </AppContainer>
         </Router>
     );
 }

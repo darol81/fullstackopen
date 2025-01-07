@@ -3,6 +3,9 @@ import { useSelector, useDispatch } from "react-redux";
 import { useParams } from "react-router-dom";
 import { initializeUsers } from "../reducers/userReducer";
 
+/* CSS */  
+import { AppContainer, Heading, SubHeading, StyledList, StyledListItem } from '../components/styles/styledComponents';
+
 const User = () => 
 {
     const { userid } = useParams(); 
@@ -18,15 +21,17 @@ const User = () =>
     if(userList === null || user == null) return null;
  
     return (
-            <div>   
-                <h2>{user.name}</h2>
-                <h3>Added blogs</h3>   
-                <ul>
-                    {user.blogs.map(blog => (
-                        <li key={blog.id}>{blog.title}</li>
-                    ))} 
-                </ul>
-            </div>  
+            <AppContainer>  
+                <div>   
+                    <Heading>{user.name}</Heading>
+                    <SubHeading>Added blogs</SubHeading>
+                    <StyledList>
+                        {user.blogs.map(blog => (
+                                <StyledListItem key={blog.id}>{blog.title}</StyledListItem>
+                            ))} 
+                    </StyledList>
+                </div>  
+            </AppContainer>
     );
 }
 

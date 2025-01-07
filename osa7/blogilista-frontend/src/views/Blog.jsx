@@ -2,8 +2,10 @@ import { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 import { initializeBlogs } from "../reducers/blogReducer";
-import './Blog.css';
 import { likeBlog, deleteBlog, postComment } from "../reducers/blogReducer";
+
+/* CSS */  
+import { AppContainer, Heading, SubHeading, Button, Input, Text, StyledLink, StyledList, StyledListItem } from '../components/styles/styledComponents';
 
 const Blog = () => 
 {
@@ -42,35 +44,37 @@ const Blog = () =>
     if (!blog) return <div>Blog not found.</div>;
 
    return (
-            <div>
-                <h2>{blog.title} by {blog.author}</h2>
-                <a href={blog.url}>{blog.url}</a>
-                <p>
-                    Likes: {blog.likes} <button onClick={handleLikeButton}>Like</button>
-                </p>
-                {blog.user && <span>Added by {blog.user.name}</span>}
-                {(user.username === (blog.user && blog.user.username)) && (
-                    <div>
-                        <button onClick={handleRemoveButton}>Remove</button>
-                    </div>
-                )}
-                <br />
-                {blog.comments && (
-                    <div>
+            <AppContainer>
+                <div>
+                    <Heading>{blog.title} by {blog.author}</Heading>
+                    <StyledLink href={blog.url}>{blog.url}</StyledLink>
+                    <Text>
+                        Likes: {blog.likes} <Button onClick={handleLikeButton}>Like</Button>
+                    </Text> 
+                    {blog.user && <span>Added by {blog.user.name}</span>}
+                    {(user.username === (blog.user && blog.user.username)) && (
                         <div>
-                            <h3>Comments</h3>
-                            <input type="text" value={comment} onChange={({ target }) => setComment(target.value)} required/>
-                            <button onClick={handleAddComment}>Add comment</button>
-                            
-                            <ul>
-                                {blog.comments.map((comment, index) => (
-                                    <li key={index}>{comment}</li>
-                                ))}
-                            </ul>
+                            <Button onClick={handleRemoveButton}>Remove</Button>
                         </div>
-                    </div>
-                )}
-            </div>
+                    )}
+                    <br />
+                    {blog.comments && (
+                        <div>
+                            <div>
+                                <SubHeading>Comments</SubHeading>
+                                <Input type="text" value={comment} onChange={({ target }) => setComment(target.value)} required/>
+                                <Button onClick={handleAddComment}>Add comment</Button>
+                                
+                                <StyledList>
+                                    {blog.comments.map((comment, index) => (
+                                        <StyledListItem key={index}>{comment}</StyledListItem>
+                                    ))}
+                                </StyledList>
+                            </div>
+                        </div>
+                    )}
+                </div>
+            </AppContainer>
         );
 };
 

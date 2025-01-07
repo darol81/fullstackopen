@@ -5,6 +5,9 @@ import Togglable from '../components/Togglable';
 import BlogForm from '../components/BlogForm';
 import BlogItem from '../components/BlogItem';
 
+/* CSS */
+import { AppContainer, Heading } from '../components/styles/styledComponents';
+
 const Blogs = () =>
 {
     const dispatch = useDispatch();
@@ -13,7 +16,7 @@ const Blogs = () =>
 
     useEffect(() => 
     {
-        dispatch(initializeBlogs()); // Haetaan blogitiedot
+        dispatch(initializeBlogs());
     }, [dispatch]);
 
     if (!blogs) 
@@ -21,16 +24,19 @@ const Blogs = () =>
         return <div>Loading blogs...</div>;
     }
     return (
-        <div>
-            <h2>Blogs</h2>
-            {blogs.map(blog => 
-                <BlogItem key={blog.id} blog={blog} />
-            )}
-            <br/>
-            <Togglable buttonLabel="New blog">
-                <BlogForm user={user} />
-            </Togglable>
-        </div>
+        <AppContainer>
+            <div>
+                <Heading>Blogs</Heading>
+                {blogs.map(blog => 
+                    <BlogItem key={blog.id} blog={blog} />
+                )}
+                <br/>
+                <Togglable buttonLabel="New blog">
+                    <BlogForm user={user} />
+                </Togglable>
+            </div>
+        </AppContainer>
+        
     );
 }
 

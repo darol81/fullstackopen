@@ -3,6 +3,9 @@ import PropTypes from 'prop-types'
 import { useDispatch } from 'react-redux'
 import { createBlog } from '../reducers/blogReducer';
 
+/* Css */
+import { AppContainer, Heading, Input, Button } from '../components/styles/styledComponents';
+
 const BlogForm = ({ user }) => 
 {
     const [title, setTitle] = useState("");
@@ -19,18 +22,19 @@ const BlogForm = ({ user }) =>
         setUrl("");   
     }
     return  (
-                <>
-                    <h2>Create new</h2>
-                        <form onSubmit={handler}>
-                            <label htmlFor="title">Title:</label>
-                            <input type="text" id="title" name="title" value={title} data-testid="title" onChange={(event) => setTitle(event.target.value)}/><br/>
-                            <label htmlFor="author">Author:</label>
-                            <input type="text" id="author" name="author" value={author} data-testid="author" onChange={(event) => setAuthor(event.target.value)} /><br/>
-                            <label htmlFor="url">Url:</label>
-                            <input type="url" id="url" name="url" value={url} data-testid="url" onChange={(event) => setUrl(event.target.value)} /><br/>
-                            <button type="submit">Create</button>
-                        </form>            
-                </> 
+                <AppContainer>    
+                   
+                    <Heading>Create new</Heading>
+                    <form onSubmit={handler}>
+                        <label htmlFor="title">Title:</label>
+                        <Input type="text" id="title" name="title" value={title} data-testid="title" onChange={(event) => setTitle(event.target.value)}/><br/>
+                        <label htmlFor="author">Author:</label>
+                        <Input type="text" id="author" name="author" value={author} data-testid="author" onChange={(event) => setAuthor(event.target.value)} /><br/>
+                        <label htmlFor="url">Url:</label>
+                        <Input type="url" id="url" name="url" value={url} data-testid="url" onChange={(event) => setUrl(event.target.value)} /><br/>
+                        <Button type="submit">Create</Button>
+                    </form>            
+                </AppContainer>
             );
 }
 
