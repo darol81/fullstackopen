@@ -8,7 +8,7 @@ const User = require("../models/user");
 /* POST routes */
 blogsRouter.post("/", async(request, response) =>
 {
-	const { title, author, url, likes } = request.body;
+	const { title, author, url, likes, comments } = request.body;
 	const userId = request.user;
 
 	if(!userId)
@@ -21,6 +21,7 @@ blogsRouter.post("/", async(request, response) =>
 		title,
 		author,
 		url,
+		comments: comments || [],
 		likes: likes || 0,
 		user: user._id
 	});
@@ -67,6 +68,7 @@ blogsRouter.put("/:id", async (request, response) =>
     	author: body.author || oldBlog.author,
     	url: body.url || oldBlog.url,
     	likes: body.likes || oldBlog.likes,
+		comments: body.comments || oldBlog.comments,
         user : oldBlog.user
     };
     

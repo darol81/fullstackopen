@@ -83,5 +83,23 @@ export const likeBlog = (user, blog) =>
         }
     };
 }
+
+export const postComment = (user, blog, comment) =>
+{
+    return async dispatch =>
+    {
+        const updatedBlog = { ...blog, comments: blog.comments.concat(comment) };
+        try 
+        {
+            await blogService.updateBlog(user.token, blog.id, updatedBlog);
+            dispatch(initializeBlogs());
+        } 
+        catch(error) 
+        {
+            dispatch(setNotification("Error updating blog.", "error", 5));
+        }
+    };
+}
+
 export default blogSlice.reducer;
 
